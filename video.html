@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Educational Videos - Diploma Student Portal</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f9;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #004080;
+    color: white;
+    padding: 15px;
+    text-align: center;
+}
+
+.video-section {
+    padding: 20px;
+    text-align: center;
+}
+
+.video-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.video-card {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+}
+
+nav ul{
+    list-style:none;
+    display:flex;
+    gap:20px;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+}
+
+nav a.active{
+    font-weight:bold;
+    border-bottom:2px solid white;
+}
+
+.video-container{
+    padding:40px;
+    text-align:center;
+}
+
+.filter-section{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    flex-wrap:wrap;
+    margin-bottom:30px;
+}
+
+select{
+    padding:8px;
+}
+
+.videos-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:20px;
+}
+
+
+.video-wrapper{
+    position:relative;
+    padding-bottom:56.25%;
+    height:0;
+}
+
+.video-wrapper iframe{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+}
+
+footer{
+    text-align:center;
+    padding:20px;
+    background:#2e59d9;
+    color:white;
+    margin-top:40px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h2>🎓 Diploma Students Portal</h2>
+    <nav>
+        <ul>
+           <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="videos.html">Videos</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+</header>
+
+<section class="video-container">
+
+<h1>🎬 Educational Videos</h1>
+
+<div class="filter-section">
+    <select id="branch" onchange="updateSemesters()">
+        <option value="">Select Branch</option>
+        <option value="cme" style="background: #FF6B6B;">Computer Engineering (CME)</option>
+                        <option value="eee" style="background: #4ECDC4;">Electrical Engineering (EEE)</option>
+                        <option value="ece" style="background: #FFE66D;">Electronics Engineering (ECE)</option>
+                        <option value="me" style="background: #95E1D3;">Mechanical Engineering (ME)</option>
+                        <option value="ce" style="background: #C7CEEA;">Civil Engineering (CE)</option>
+                        </select>
+
+    <select id="semester" onchange="updateSubjects()">
+        <option value="">Select Semester</option>
+    </select>
+
+    <select id="subject" onchange="loadVideos()">
+        <option value="">Select Subject</option>
+    </select>
+</div>
+
+<div class="videos-grid" id="videosGrid"></div>
+
+</section>
+
+ <div class="no-selection" id="noSelection">
+                <p>👆 Select branch, semester, and subject above to view videos</p>
+            </div>
+
+<footer>
+© 2026 Diploma Students Portal
+</footer>
+
+<script>
+ 
+ // Branch Colors
+        const branchColors = {
+            cme: { color: '#FF6B6B', name: 'Computer Engineering', icon: '💻' },
+            eee: { color: '#4ECDC4', name: 'Electrical Engineering', icon: '⚡' },
+            ece: { color: '#FFE66D', name: 'Electronics Engineering', icon: '📡' },
+            me: { color: '#95E1D3', name: 'Mechanical Engineering', icon: '⚙️' },
+            ce: { color: '#C7CEEA', name: 'Civil Engineering', icon: '🏗️' }
+        };
+
+// ---------- DATA ----------
+const coursesData = {
+    cme: {
+                name: "Computer Engineering",
+                color: "#FF6B6B",
+                icon: "💻",
+                semesters: {
+                    "1": {
+                        name: "Semester 1",
+                        color: "#FFB3B3",
+                        subjects: {
+                            "Basics Computer Engr": {
+                                name: "English",
+                                color: "#FF8787",
+                                icon: "📝",
+                                videos: [
+                                    { title: "List the various operating systems used presently", url: "https://youtu.be/o14-gCNRwR8?si=yZF47ZadtanIKi9Q" },
+                                    { title: "Type of dos command", url: "https://youtu.be/3Weub3DgiOA?si=ErWnulUZz_YKat1K" },
+                                    { title: "Internal Command Explanation", url: "https://youtu.be/KjO8bi55uZ8?si=F3c4dlf8UxAOtyg3" },
+                                    { title: "Any 10 Internal commands", url: "https://youtu.be/sp0gMT5-WDI?si=YPlO_A-mbNmYO3co" },
+                                    { title: "Sate the function of each component of a Window.", url: "https://youtu.be/sdCNkctjoeM?si=Y4N9fSowaXnCN5LP" },
+                                    { title: "Sate the meaning of a file, folder", url: "https://youtu.be/3FArFc_CrJM?si=BOCfOyoPGwTdTMQp" },
+                                    { title: "Describe the Method of finding a file using search option", url: "https://youtu.be/9mY7agFnQJo?si=w9BvKZLWQlza07o6" },
+                                    { title: "Installing and uninstalling software", url: "https://youtu.be/J-UUJH_3eGg?si=qg3xgy1iWEAdmScz" },
+                                    { title: "Installing and uninstalling hardware", url: "https://youtu.be/hgY5gN1_S18?si=SUTdaz0Xy7wKtIEn" }
+                                ]
+                            },
+                            "maths": {
+                                name: "Mathematics",
+                                color: "#FF6B6B",
+                                icon: "🔢",
+                                videos: [
+                                    { title: "What is functions", url: "https://youtu.be/52tpYl2tTqk?feature=shared" },
+                                    { title: "Introduction of matrix", url: "https://youtu.be/yRwQ7A6jVLk?si=zFUf3NY1QkH00AsQ" },
+                                    { title: "Geometrical understanding of Trigonometric functions", url: "https://youtu.be/aHMKSqVvWaI?si=03A9ccA7nGrLDRjy" },
+                                    { title: "Introduction to Inverse Trigonometric Functions", url: "https://youtu.be/ADpxUQMCSng?si=zMCjN8hGC4RmC7Gr" },
+                                    { title: "Introduction to Limits", url: "https://youtu.be/riXcZT2ICjA?si=ijqGyzcNah-ePc21" },
+                                    { title: "Derivative of a function", url: "https://youtu.be/lowavG2SXsQ?si=NcggDo-y-80y6k9Z" },
+                                    { title: "Finding Maxima & Minima", url: "https://youtu.be/pvLj1s7SOtk?si=epL8onoOhRJsEEJP" }
+                                ]
+                            },
+                            "chemistry": {
+                                name: "Chemistry",
+                                color: "#FF8C42",
+                                icon: "🧪",
+                                videos: [
+                                    { title: "Photoelectric Effect Einstein's Photon Theory", url: "https://www.youtube.com/watch?v=hHfDFNeUDVs" },
+                                    { title: "Green Chemistry Principles", url: "https://youtu.be/C2pN3l2BGc4" },
+                                    { title: "Water pollution | What is water pollution ? | effects of Water pollution | How does water gets dirty", url: "https://youtu.be/8sCL4w9d_YE" },
+                                    { title: "Ways To Prevent Water Pollution", url: "https://youtu.be/sYIoPIstObU" },
+                                    { title: "13Acid Rain", url: "https://youtu.be/dmgLESI4GGU" },
+                                    { title: "Ways To Prevent Air Pollution", url: "https://youtu.be/sYIoPIstObU" },
+                                    { title: "What is E-WASTE Pollution? | What Causes Electronic Waste? | The Dr Binocs Show Peekaboo Kidz", url: "https://youtu.be/MQLadfsvfLo?si=tLuY-brSVy2WyQ0g" },
+                                    { title: "Causes of ozone layer depletion | Ozone layer depletion | what is ozone hole", url: "https://youtu.be/DzLqp6TpcQA" },
+                                    { title: "Bohrs atomic theory", url: "https://youtu.be/y9kWdegtrs0?si=DDIfRlVHAdQAq-sK" },
+                                    { title: "Zeeman effect and stark effect", url: "https://youtu.be/t3r--MnB-DE?si=1bnop8aUOSxbLvY7" },
+                                    { title: "Ionic compound", url: "https://youtu.be/TxHi5FtMYKk?si=VaUe6LHnaJN3VZB4" },
+                                    { title: "Covalent Bonding", url: "https://youtu.be/0HfN3CvXP2M?si=2OZndQ4S_aMlZbmP" },
+                                    { title: "Properties of covalent compound", url: "https://youtu.be/VrahlMquOKU?si=-f9S6N-tSwHdlcgx" },
+                                    { title: "Ionic compound diffrent covalent compound", url: "https://youtu.be/OTgpN62ou24?si=CuAVYzVvN5oh3LwB" },
+                                    { title: "Unsaturated and saturated and supersaturater", url: "https://youtu.be/CmnLujnwQ2c?si=i__v-jc75JZm43bg" },
+                                    { title: "Normality", url: "https://youtu.be/4QTv-aM7vGo?si=nfqzH1abqyWjjTrF" },
+                                    { title: "Buffer Solution", url: "https://youtu.be/8U5tP6GL9wM?si=3k6AJJ8ngCIE1VPu" },
+                                    { title: "pH in Life", url: "https://youtu.be/r3hirzlWILM?si=vN8YDXsponckRfFB" },
+                                    { title: "Electrical conductivity", url: "https://youtu.be/QrONohBedtk?si=1rumDQ0bq8FLaE8y" },
+                                    { title: "Corrosion control", url: "https://youtu.be/lfT9L3ADkZw?si=_2-O4mj4R9ghrm-H" },
+                                    { title: "Working of lead acid battery", url: "https://youtu.be/HhxtfULIO7c?si=QjndZ3VYy6x7ci0F" },
+                                    { title: "How to lithium-ion battery working", url: "https://youtu.be/YFd0kb9Nwt0?si=WowNUORsu6aJreDf" },
+                                        { title: "Corrosion", url: "https://youtu.be/1BBqsZRegdg?si=QbNWEIcD_BLWx8L8" },
+                                        { title: "Ion exchange process", url: "https://youtu.be/ctlHNf1s6RM?si=_-D3jbPnYQiM4Re1" },
+                                        { title: "How does reverse osmosis work", url: "https://youtu.be/aVdWqbpbv_Y?si=snCR0ChZlZc7RY9P" },
+                                        { title: "Hydrogen molecules", url: "https://youtu.be/eoF2EoFhIJw?si=Dbz_uGNqHaJBgqu6" },
+                                        { title: "Important of Environmental studies", url: "https://youtu.be/hcGpoh_--8c?si=LmTRvj7db2vji6Wk" },
+                                        { title: "Environment Terms", url: "https://youtu.be/1bRER1ryGUU?si=tXbiMm6rmwlEp79t" },
+                                        { title: "Renewable", url: "https://youtu.be/PLBK1ux5b7U?si=zwHoQCWtjeGcyxDF" },
+                                        { title: "Non Renewable energy source", url: "https://youtu.be/KdR_6Taga5A?si=tNhvMIVJmPMJ-Gjz" },
+                                        { title: "Nuclear Reaction", url: "https://youtu.be/KRbFJjaTDJI?si=ZOmFNbMQ2FpYMP1J" },
+                                        { title: "Solar Energy", url: "https://youtu.be/8nJXN6kwyqA?si=XQWm8f4sL5cdjqhj" },
+                                        { title: "Wind Energy", url: "https://youtu.be/_8DtGAp1fyI?feature=shared" },
+                                            { title: "Forest Resources", url: "https://youtu.be/_8DtGAp1fyI?feature=shared" },
+                                            { title: "Deforestation", url: "https://youtu.be/vJnnrpSDWPI?si=7BpS5qHc8T2WINRB" },
+                                            { title: "Conservation of forests", url: "https://youtu.be/E_PmnoNN_z4?si=vTVi5gIjLDVlQ3im" },
+                                            { title: "Air pollution", url: "https://youtu.be/_zd07gPGuoc?si=a5yvZ3f7CrxcFzCh" },
+                                            { title: "Acid Rain", url: "https://youtu.be/dmgLESI4GGU?si=iWQq1UTCkn_a_z5U" },
+                                            { title: "Ozone Layer Depletion", url: "https://youtu.be/DzLqp6TpcQA?si=NgP38116BJdQ_-kC" }
+                                                                    ]
+                            },
+                            "physics": {
+                                name: "Physics",
+                                color: "#FF5252",
+                                icon: "⚛️",
+                                videos: [
+                                    { title: "Photoelectric cell", url: "https://youtu.be/sFyUeP939gQ?si=jaHkmlh7Owl__-zF" },
+                                    { title: "Photoelectric effect", url: "https://youtu.be/hHfDFNeUDVs?si=SVYnZT5kg7jaN8R-" },
+                                     { title: "Total internal reflection", url: "https://youtu.be/zA8UfR-Eekk?si=7wv0maZB4hE7MToK" },
+                                    { title: "Optical fibres", url: "https://youtu.be/aylVgs2iDDw?si=2jEBayMh1NcXQ4ap" },
+                                     { title: "What is Nanotechnology", url: "https://youtu.be/-K7Gs0Nj-5o?si=SmFw0q3ySO7ZAETr" },
+                                    { title: "Energy gas", url: "https://youtu.be/5zz6LlDVRl0?si=rrFlMnzQakq-AJQX" },
+                                        { title: "Semiconductor", url: "https://youtu.be/8LUL2cBoJ48?si=U6rkgUBI5g29tlqG" },
+                                        { title: "Super conductor", url: "https://youtu.be/Gk91YQDMTCw?si=om2I3ubiZ9fAhlK0" }
+                                ]
+                            }
+                        }
+                    },
+                    "3": {
+                        name: "Semester 3",
+                        color: "#FFCCCC",
+                        subjects: {
+                            "DE - Digital Electronics": {
+                                name: "DE - Digital Electronics",
+                                color: "#FF6B6B",
+                                icon: "💾",
+                                videos: [
+                                    { title: "Introduction of logic families", url: "https://youtu.be/nb11AipMJd4?si=u2DjUh79WYZx_iro" },
+                                    { title: "Definition of Positive logic and negative logic", url: "https://youtu.be/lkVThbtXNv8?si=CkXmM7B6B9sWVz0l" },
+                                     { title: "How flip flops work", url: "https://youtu.be/Hi7rK0hZnfc?si=ykzO7R1klLCP2wUO" },
+                                    { title: "SR-Latch using nor gates", url: "https://youtu.be/nZNEgSN9_mM?si=9UutrFf2721Q_bxV" },
+                                        { title: "Edge and level triggered", url: "https://youtu.be/hKwctpJB7Nw?si=jrfebrO0JYwp7rm5" },
+                                        { title: "JK-Flip Flop", url: "https://youtu.be/V_JJ_YrPU6Q?si=ic8eYX8O_IY6Z95R" },
+                                        { title: "D-Flip Flop", url: "https://youtu.be/kQ9WICIFWnU?si=vmEyTmOdcGRr3LOb" },
+                                        { title: "T-Flip Flop", url: "https://youtu.be/wK5qJGI8qBA?si=7mLX98oD7b9LKBof" },
+                                        { title: "SR flip flop", url: "https://youtu.be/tSti91b6qec?si=4TXe4q6YVTegN6ro" },
+                                        { title: "Master slave JK flip flop", url: "https://youtu.be/PUPbJPgYE3o?si=kC1uis95uC0TnoTz" },
+                                        { title: "How to draw timing diagram for d flip flop with asynchronous?", url: "https://youtu.be/56ouFodPZ6M?si=14yIjPqkLw6sULgo" }
+                                ]
+                            },
+                            "Operating System": {
+                                name: "Operating System",
+                                color: "#FF6B6B",
+                                icon: "💾",
+                                videos: [
+                                { title: "Define an operating system", url: "https://www.youtube.com/watch?v=WJ-UaAaumNA&list=PLxCzCOWd7aiGz9donHRrE913Mwm6x dP8p&index=2" },
+                                { title: "Differentiate between distributed and real time systems", url: "https://www.youtube.com/watch?v=YQZbIT9FcUk&list =PLxCzCOWd7aiGz9donHRrE913Mwn6XdP8p&index=5" },
+                                { title: "Define system call with an example", url: "https://www.youtube.com/watch?v=lhToWeuWWfw&ll st=PLBLnK6fEyqRIVhbXDGLXDK OQAeuVcp20&index+9" },
+                                { title: "List and explain different types of system calls", url: "https://www.youtube.com/watch?v=EavqupVh8ls&list= PLBinK6fEygRiVhbXDGLXDK OQAeuVcp20&index=10" },
+                                { title: "Define single user, multi user operating system structure", url: "https://www.youtube.com/watch?v=ldXh8FmuF20" },
+                                 { title: "Process Management", url: "https://www.youtube.com/watch?v=OrM7nZcxXZU" },
+                                { title: "Define process and control block process", url: "https://youtu.be/4s2MKuVYKV8?si=W1kOJiCLAevuvPcL" },
+                                { title: "Explain process state diagram", url: "https://youtu.be/jZ_6PXoaoxo?si=5o26pu5qyx2TYbMe" },
+                                { title: "Discuss the relation between processes", url: "https://youtu.be/dJuYKfR8vec?si=jGkHX0bLHiEaN4B4" },
+                                { title: "Define Thread and describe multithreading", url: "https://www.youtube.com/watch?v=LOfGJcVnvAk" },
+                                { title: "Explain scheduling concepts", url: "https://youtu.be/2h3eWaPx8SA?si=lIp1W0mcKtAmS0hw" },
+                                { title: "Describe scheduling queues and schedulers", url: "https://youtu.be/4DhFmL-6SDA?si=4jXjP2BKH20L143F" },
+                                { title: "Allocation Methods & File Allocation", url: "https://youtu.be/gK6L3v1b8AM?si=JBNWpz15hL4-_uSd" },
+                                    { title: "Disk Access Time", url: "https://youtu.be/spBQBc-DGsU?si=b7b6a9hE9T-tFYEx" },
+                                    { title: "Inter Process Communication Shared Memory", url: "https://youtu.be/fSMVWmGPqlM?si=bri41quGGnV71Iy4" },
+                                    { title: "Deadlock Recovery", url: "https://youtu.be/kOYTmxKpIms?si=WGC2xiZtM5sq2iI2" },
+                                     { title: "Directory Structure Tree Structured", url: "https://youtu.be/eK_mEHG20PA?si=xAFKTZ84S2dTlFqJ" },
+                                    { title: "Deadlock Prevention", url: "https://youtu.be/GAde3Skbs8I?si=L7jaXwfhr7mHhvkw" },
+                                     { title: "What is Deadlock?", url: "https://youtu.be/0u4ZyblK_YY?si=JsLAsMXRkHlnFEeQ" },
+                                    { title: "OPT page replacement Algorithm", url: "https://youtu.be/77qJL8I-o-Q?si=LcSnOLe79Pfd7ddU" },
+                                        { title: "Segmentation", url: "https://youtu.be/H7cJsF79iew?si=GJSycB2UKiwvve1I" },
+                                        { title: "Deadlock Characteristics", url: "https://youtu.be/23xp51q2LP0?si=7296ZvFSR2-NRa76" },
+                                        { title: "Deadlock Avoidance", url: "https://youtu.be/u2yvDHVVgZk?si=gPGm6m-T5bVMP_h4"},
+                                        { title: "Virtual Memory Or Demand Paging", url: "https://youtu.be/3CC7WOwDjac?si=9Wwo8Kl8OgnXv5WR" },
+                                        { title: "FIFO page replacement Algorithm", url: "https://youtu.be/sztDxZozMxM?si=9tw8K9Py1guwDEru" },
+                                        { title: "Need of page replacement", url: "https://youtu.be/bOFDyPKTgXM?si=X3-DbWOOV7NR4hx3" },
+                                        { title: "LRU page replacement Algorithm", url: "https://youtu.be/5jPsT1WAeks?si=owDQFyxIU9yZBlOQ" },
+                                        { title: "SSTF Disk Scheduling Algorithm", url: "https://youtu.be/eME2bckEFQw?si=-Bw2Od-PCHO0mFJz" },
+                                        { title: "LOOK Disk Scheduling Algorithm", url: "https://youtu.be/0Up1_l8LNXs?si=_1BJh1kTrhqdBANe" },
+                                        { title: "CSCAN Disk Scheduling Algorithm", url: "https://youtu.be/xxRvJ-ykioo?si=lqRUYHSQZpPYg7Qn" },
+                                        { title: "FCFS Disk Scheduling Algorithm", url: "https://youtu.be/p48PdudrrgU?si=FZKkgNNxQYc4Ifkv" },
+                                    { title: "Semaphores", url: "https://youtu.be/5y14WXehSU4?si=SzYo34dfrB0NTkEj" }
+                                ]
+                            },
+                            "Data Structures": {
+                                name: "Data Structures",
+                                color: "#FF6B6B",
+                                icon: "💾",
+                                videos: [
+                                    { title: "Introduction to Data Structures", url: "https://youtu.be/DFpWCl_49i0?si=UjQtViOQ-Cg-qfmX" },
+                                    { title: "Asymptotic Analysis", url: "https://youtu.be/1tfdr1Iv6JA?si=EE8D5xCr_rMz7jTc" },
+                                     { title: "Space Complexity", url: "https://youtu.be/yOb0BL-84h8?si=4CGiOBcKRZFoN0Hy" },
+                                    { title: "Bubble Sort", url: "https://youtu.be/CPQUfkVkGQs?si=t4Xm6H5FgcdErTj0" },
+                                     { title: "Selection Sort", url: "https://youtu.be/IIcvhrQnySM?si=voAbaa9K1QDY-nro" },
+                                    { title: "Insertion Sort", url: "https://youtu.be/nm1tEKTUuQ0?si=Yh57-SeeIUyJ6y-b" },
+                                        { title: "Merge Sort", url: "https://youtu.be/cAv-4ltj1go?si=VnqI6dPfknCW0gDa" },
+                                        { title: "Quick Sort", url: "https://youtu.be/yEzFMbc7ltQ?si=PfsIkE87hI-ahyiv" },
+                                        { title: "Linear Search", url: "https://youtu.be/EqWpRlZkWNM?si=i-3HM7J4FfGHGJcS"},
+                                        { title: "Binary Search", url: "https://youtu.be/HlEz93t628E?si=_EfNHwSEzpWwZwqn" },
+                                        { title: "Introduction to Linked Lists", url: "https://youtu.be/R9PTBwOzceo?si=BjIo0HcDFlu6vDNM" },
+                                        { title: "Creation of Singly Linked Lists", url: "https://youtu.be/HrY_YmU1vdg?si=mabGoJnE1x1Awg0K" },
+                                        { title: "Insertion in Singly Linked Lists", url: "https://youtu.be/dU0KxLgNM9E?si=U2Tp-Q8gYtAXAVhm" },
+                                        { title: "Insertion at the beginning of the Linked List", url: "https://youtu.be/jgqg6Qw68_Q?si=XckUlBeL4oGuAnbt" },
+                                        { title: "Insertion at the end of the Linked List", url: "https://youtu.be/LYGbeWnYXd8?si=rEf27j3M-LIcRLQW" },
+                                        { title: "Deletion of first node from Singly Linked Lists", url: "https://youtu.be/-rcIWx-JTxw?si=ZADkvI77U6uqhRLo" },
+                                        { title: "Deletion of last node from Singly Linked Lists", url: "https://youtu.be/TpgxJupHATQ?si=pH5SsUB6TLkhosl6" },
+                                    { title: "Creation of Doubly Linked Lists", url: "https://youtu.be/EgrSkwnuZUU?si=AIgz8BvNnNAp7bnD" },
+                                     { title: "Doubly Linked Lists - Insertion at the beginning", url: "https://youtu.be/SPKCATQ--KY?si=2YIXXM62OGoBjYTN" },
+                                    { title: "Doubly Linked Lists - Insertion at the end", url: "https://youtu.be/LDMF8iqO8pg?si=7Nzdv0KOkGJIRTBp" },
+                                     { title: "Doubly Linked Lists - Insertion between nodes", url: "https://youtu.be/vL-4DvU4nK4?si=6gX22p6QSSrxRx_y" },
+                                    { title: "Doubly Linked Lists - Deletion of a First node", url: "https://youtu.be/ZxGz3XkGlyA?si=MmR7GiNNurH8EQkU" },
+                                        { title: "Doubly Linked Lists - Deletion of a Last node", url: "https://youtu.be/hJ7lVSt0AsQ?si=rvANqOV7OzQpkMF8" },
+                                        { title: "Doubly Linked Lists - Deleting the Intermediate node", url: "https://youtu.be/4ZOk5g67Lzg?si=Ka0wH_rcZwvPPWhc" },
+                                        { title: "Introduction to Circular Linked Lists", url: "https://youtu.be/HMkdlu5sP4A?si=qwUbpynJU-yD-Myh"},
+                                        { title: "Rapid Fire Quiz", url: "https://youtu.be/DySVJ3O20aU?si=e3ylbEoK6IQ6dAKo" },
+                                        { title: "Introduction to Stack", url: "https://www.youtube.com/watch?v=51qhFMs4EOk" },
+                                        { title: "Array implementation of Stack", url: "https://www.youtube.com/watch?v=sFVxsglODoo" },
+                                        { title: "Linked List implementation of Stack", url: "https://www.youtube.com/watch?v=MuwxQ21B8IQ" },
+                                        { title: "Reversing a stringusing Stack", url: "https://www.youtube.com/watch?v=hNP72JdOlgY" },
+                                        { title: "Check for balanced parentheses using Stack", url: "https://www.youtube.com/watch?v=QZOLb0xHB_Q" },
+                                        { title: "Towers of Hanoi", url: "https://www.youtube.com/watch?v=qqbMiRCZ7a4" },
+                                        { title: "Postfix Expression Evaluation", url: "https://www.youtube.com/watch?v=j-RGltzSd0A" },
+                                        { title: "Infix to Postfix Conversion", url: "https://www.youtube.com/watch?v=YF19DITmbRU" },
+                                        { title: "Introduction to Queue", url: "https://www.youtube.com/watch?v=HyK44RnATTM" },
+                                        { title: "Queue data structure", url: "https://www.youtube.com/watch?v=Sba5lOWjlfw&t=10s" },
+                                        { title: "Linked List implementation of Queue", url: "https://www.youtube.com/watch?v=u8v418N2tzs" },
+                                        { title: "Array implementation of Circular Queue", url: "https://www.youtube.com/watch?v=wRSF0aXAad4" },
+                                        { title: "Linked List implementation of Circular Queue", url: "https://www.youtube.com/watch?v=ZcP5AfQ8z-0" },
+                                        { title: "Double Ended Queue (Deque)", url: "https://www.youtube.com/watch?v=p6E7E9qK1dl" },
+                                        { title: "Introduction to Trees", url: "https://youtu.be/qH6yxkw0u78?si=n2SzOvZYYKBVwvb5" },
+                                    { title: "Covert general tree to binary tree", url: "https://youtu.be/zrTuiS_gYZo?si=ybM_vVcaFfoPyO9Z" },
+                                     { title: "Types of Binary Trees,Full Binary Tree,Complete Binary Tree", url: "https://www.youtube.com/watch?v=naG0Fh4EtKk" },
+                                    { title: "Binary Tree Traversals", url: "https://youtu.be/9RHO6jU--GU?si=Bn3EPFvGMac3-HO3" },
+                                     { title: "Build Binary Tree from Preorder and Inorder", url: "https://www.youtube.com/watch?v=wGmJatvjANY" },
+                                    { title: "Construct Binary Tree from Preorder and Inorder", url: "https://youtu.be/yx6771EVWfU?si=XebOLcMfFSTLmQA6" },
+                                        { title: "Construct Binary Tree from postorder and inorder", url: "https://youtu.be/U7u4ana1Wfw?si=xMkDFm6tZPApTsNA" },
+                                        { title: "Construct Binary Tree from preorder and postorder", url: "https://youtu.be/xEZ2kzNPQ-c?si=FxKeH87IfHnZ5-WY" },
+                                        { title: "Binary Search Tree", url: "https://youtu.be/Z9cGbNi3XnU?si=MGwISLbzftk01zIb"},
+                                        { title: "Binary Search Tree Deletion", url: "https://youtu.be/aR3PjH4Ps0U?si=O7H0PYGcCBOltuuz" }
+                                ]
+                            },
+                            "Data Base Management System": {
+                                name: "Data Base Management System",
+                                color: "#FF6B6B",
+                                icon: "💾",
+                                videos: [
+                                    { title: "Introduction to database", url: "https://youtu.be/j09EQ-xlh88?si=78io9xEuv-ftGDu9" },
+                                    { title: "Data model", url: "https://youtu.be/OwQoj3GJfNY?si=lefHFAjuKQnKuCNC" },
+                                     { title: "Keys in RDBMS", url: "https://youtu.be/iQLc0Y7BuI4?si=6t5knI7JGaMBDBxB" },
+                                        { title: "ER model", url: "https://youtu.be/wOD02sezmX8?si=zikob4Ob2SYPQ6L5" },
+                                        { title: "Normalization", url: "https://youtu.be/xoTyrdT9SZI?si=JZKAyyv7WkA1xrcx" },
+                                        { title: "Mapping cardinalities", url: "https://youtu.be/CdGu83hrxLY?si=hhNuYFrdjiWN26gW" },
+                                        { title: "Generalisation, specificalisation and aggregation", url: "https://youtu.be/YiMpUhZ92JE?si=OSWYSOa4kLgHO2YK" },
+                                        { title: "ER diagrams and it's components", url: "https://youtu.be/kMB3l-FKQAw?si=Xw2zSkX6mZ3gIYyk" },
+                                        { title: "Database abstraction and independence", url: "https://youtu.be/vyfOn5STcDg?si=XtzcnDtXVTKAR4YA" },
+                                        { title: "Database languages", url: "https://youtu.be/IPvY9Gp83WM?si=Ln3_Cp7m5Z4wEweb" },
+                                        { title: "SQL basics", url: "https://youtu.be/zbMHLJ0dY4w?si=bfvmAE7uwvHPFpA5" },
+                                    { title: "SQL datatypes", url: "https://youtu.be/lC1ol5x2GNk?si=fdp4jx2JybJLs5MF" },
+                                     { title: "DDL commands", url: "https://youtu.be/tz8KxP3ZQpA" },
+                                    { title: "DML commands", url: "https://youtu.be/dYz8Zb5E7Dk" },
+                                     { title: "SQL integrity and constraints", url: "https://youtu.be/7S_tz1z_5bA" },
+                                    { title: "Group By  and Having", url: "https://youtu.be/0b3kHkYkq9U" },
+                                        { title: "SQL Operators", url: "https://youtu.be/6c8V6hXv8mM" },
+                                        { title: "SQL Aggregate Functions", url: "https://youtu.be/0kQ8nXy5C1M" },
+                                        { title: "ORDER BY Clause", url: "https://youtu.be/Qxg9gWn2n0k"},
+                                        { title: "No Sql", url: "https://youtu.be/aUPVpIYiLCc?si=4LTK89AjZ7Pa2xMi"},
+                                        { title: "Subqueries in SQL", url: "https://youtu.be/1wJHh7n2k3A" },
+                                        { title: "Views in SQL", url: "https://youtu.be/4Zy5l6m8X9g" },
+                                        { title: "Indexes in SQL", url: "https://youtu.be/2v9z8K7p5sM" },
+                                        { title: "Transactions in SQL", url: "https://youtu.be/9X6j8L4n2kQ" }
+                                    ]
+                            }
+                        }
+                    },
+                    "4": {
+                        name: "Semester 4",
+                        color: "#FF9999",
+                        subjects: {
+                            "Software Engineering": {
+                                name: "Software Engineering",
+                                color: "#FF6B6B",
+                                icon: "💾",
+                                videos: [
+                                    { title: "Software testing", url: "https://youtu.be/cDQ34z0oqnQ?si=0Fv_0HirYd07iHkc" },
+                                    { title: "Software documentation", url: "https://youtu.be/ApqnZIWPw7s?si=D9cTQQTzT3r0Ob5f" },
+                                     { title: "Risk assessment", url: "https://youtu.be/15E0CgBaBJg?si=sl1tkuk3wsID9Drw" },
+                                    { title: "Risk identification", url: "https://youtu.be/jj4JDYOMGRA?si=SX-GJXciHf_Oy8B1" },
+                                     { title: "Risk management", url: "https://youtu.be/MyurcXR6AYE?si=OK9bHbKbmqDNQqQ9" },
+                                    { title: "Who is a good software engineer", url: "https://youtu.be/d5-hh7VMx0c?si=1O93xOMBhOzkegLq" },
+                                        { title: "Learn how to do staffing", url: "https://youtu.be/X6CkWPjLkhg?si=8opMIWxwzgPv55UK" },
+                                        { title: "Pert charts", url: "https://youtu.be/i160aaBX7mE?si=ETDhBrex0mT4tuBz" },
+                                        { title: "Explain organization of the SRS document", url: "https://youtu.be/41ccDK5q9Uo?si=t00vYT3KWhv8vMh8"},
+                                        { title: "List characteristics of a Good and Bad SRS document", url: "https://youtu.be/aWf2ieVkhrA?si=ETN-Wc6hC0IwIFYD"},
+                                        { title: "Explain requirements traceability", url: "https://youtu.be/ZMxqkgj-mgQ?si=6XQqVLO3_EIVJrI7" },
+                                        { title: "Describe procedure to identify the functional requirements", url: "https://youtu.be/w-utv0VfdXs?feature=shared" },
+                                        { title: "Job responsibilities of software project manager", url: "https://youtu.be/KG5cltHpbYs?si=rXhTOL_woN_r9Yuz" },
+                                        { title: "Project estimation techniques", url: "https://youtu.be/_hdPlc3kiTk?si=TEkrzGmvLSP5zMJb" },
+                                        { title: "Heuristic technique", url: "https://youtu.be/6ySF9wNDAZo?si=vFJQd7au2-RNKlfi" },
+                                        { title: "Staffing level estimations", url: "https://youtu.be/6P-G6uObmTc?si=LP1h6dmaJvno0bZx" },
+                                        { title: "Scheduling and work breakdown structure", url: "https://youtu.be/-T6JhbbBI7I?si=2b0WQSBiIFu84AMT" }
+                                 ]
+                        },
+                            "CO & MP": {
+                                name: "Compluter Orgianing & Microprocessor",
+                                color: "#FF6B6B",
+                                icon: "💾",
+                                videos: [
+                                    { title: "CISC VS RISC Processor", url: "https://youtu.be/DqZGt-VRQTE?si=J0tHTcebBVkYX2_y" },
+                                    { title: "8086 Microprocessor Features", url: "https://youtu.be/OvLRBSQ0Ja0?si=4gcwPX0ozkgTV_1k" },
+                                        { title: "Functional Block Diagram of 8086 Microprocessor", url: "https://youtu.be/OvLRBSQ0Ja0?si=OJ_MXi2JkCjZLtsG" },
+                                        { title: "80286,80386,80486 And Pentium Processors", url: "https://youtu.be/_jBXaLS-NYI?si=Qffsaprdv4zEOHII" },
+                                        { title: "Explanation of Microprocessor", url: "https://youtu.be/yzM89bEQT4M?si=kMJXEXRILIHsS6-x" },
+                                        { title: "Pentium Processor", url: "https://youtu.be/MIULGb7yuIE?si=4qMxWvPFvDQYRqWh" }
+                                 ]
+                             },
+                            "Java": {
+                                name: "Java Programming",
+                                color: "#FF6B6B",
+                                icon: "💾",
+                                videos: [
+                                     { title: "Describe the basics of Applets - Life cycle of an applet", url: "https://www.youtube.com/watch?v=3pr500fv" },
+                                    { title: "Explain Graphics class methods,Update(),Paint(),Drawing Lines, Rectangle, circles, polygons", url: "https://www.youtube.com/watch?v=kfUA8aqKdXA" },
+                                     { title: "Describe AWT classes", url: "https://youtu.be/cp2zgccfkSc?si=cZMzXrQKPAnpvI5b" },
+                                        { title: "Explain how to design Frame window with example", url: "https://www.youtube.com/watch?v=0UzL3XGan4Q" },
+                                        { title: "List and explain sources of events", url: "https://www.youtube.com/watch?v=DNmXTT-hZBM&list=PL0wXpxSD7pqVcUPZzEEhj5s37cTirulPv" },
+                                        { title: "List and explain different event classes", url: "https://youtu.be/DNmXTT-hZBM?si=pTu8xSeq_RFYbMHG" },
+                                        { title: "List and explain event listener interfaces", url: "https://youtu.be/DNmXTT-hZBM?si=BWuYPg1_DYn5t4dE" },
+                                        { title: "Demonstrate event handling mechanism", url: "https://youtu.be/DNmXTT-hZBM?si=8VYaWigzwqztq1jQ" },
+                                        { title: "Demonstrate handling keyboard events with sample program", url: "https://youtu.be/mFMKA3M6bdM?si=nrqzUvcrFffIg7gs" },
+                                        { title: "Explain how to use AWT controls in applet programming,Labels.,Buttons.,Text Fields,Checkboxes,Lists,Choice,Scrollbars", url: "https://www.youtube.com/watch?v=dWxjFs4qdgE" }
+                                 ]
+                            }
+                        }
+                    },
+                        "5": {
+                        name: "Semester 5",
+                        color: "#FFCCCC",
+                        subjects: {
+                            
+                            "Android Programming": {
+                                name: "Android Programming",
+                                color: "#FF6B6B",
+                                icon: "💾",
+                                videos: [
+                                    { title: "Attendance Manager app for android java and mysql", url: "https://youtu.be/mjPDc3K6UP4?si=Zhclkubi3c2KHvE4" },
+                                    { title: "Complete CURD operation in android studio java with sql server", url: "https://youtu.be/L4m6fQ-IX4U?si=M7LWHu4SraYEYXg-" },
+                                        { title: "java sqLite registered and login", url: "https://youtu.be/z7iOeePl0r8?si=ay-m2ZigZzffZibh" },
+                                        { title: "sqLite +android - create data base schema", url: "https://youtu.be/hJPk50p7xwA?si=Ax-TgXK9MCJvQYrl" },
+                                            { title: "SqLite database fro android (full course)", url: "https://youtu.be/312RhjfetP8?si=c7c6ICZFCjgDr-9b" },
+                                            { title: "Understanding Android Layouts", url: "https://youtu.be/7zD2sgxQ5l4?si=_nR1lvCJjTObJDRX" },
+                                            { title: "Working with Activities and Intents", url: "https://youtu.be/7ZLKpN8vXLo?si=YLpa-NcREcxITGc1" }
+                                ]
+                            },
+                            
+                            "Python Programming": {
+                                name: "Python Programming",
+                                color: "#FF6B6B",
+                                icon: "💾",
+                                videos: [
+                                    { title: "How to install python in windows", url: "https://youtu.be/DjbDQfnnKWo?si=ksP_GLHQqjsHfDzy" },
+                                    { title: "Run python idel", url: "https://youtu.be/Qi28uPKaH_A?si=xZzBxMC5-7S0sVTv" },
+                                    { title: "Python keywords and identifiers", url: "https://youtu.be/JvMwnGY2EjU?si=uVRg1xHiOnDGvJTA"  },
+                                        { title: "Python data types", url: "https://youtu.be/R4ytCUtvaxY?si=I1iJbN43UHROwZFe"},
+                                        { title: "Python operators", url: "https://youtu.be/GEMZpw7ug-k?si=7HmEunKVgZ6YTw9d" },
+                                        { title: "Python functions", url: "https://youtu.be/89cGQjB5R4M?si=gPZthnbCXihZ1qA6" },
+                                        { title: "Python built-in functions", url: "https://youtu.be/7Qu_KXc7xSI?si=mV0mkdBqpt-xxJ0u" },
+                                        { title: "If-Elif-Else", url: "https://youtu.be/FvMPfrgGeKs?si=kpL8KR4Mu0EMl4xW" },
+                                        { title: "While loop", url: "https://youtu.be/rRTjPnVooxE?si=dnMniYqQ4AIItHDH" },
+                                        { title: "For loop", url: "https://youtu.be/KWgYha0clzw?si=zaJsAiTYvw2Etg8O" },
+                                        { title: "Nested loop", url: "https://youtu.be/APWy6Pc83gE?si=a6hQrQTtqhgpe_C8" },
+                                        { title: "Break-continue-pass", url: "https://youtu.be/yCZBnjF4_tU?si=z6JipEHS8787mfbF" },
+                                        { title: "Star pattern", url: "https://youtu.be/fX64q6sYom0?si=kf9K0Cb_x3gxH2vy" },
+                                        { title: "Number pattern", url: "https://youtu.be/uyu_jf01a74?si=ldYur1jRYvYyVsCT" },
+                                        { title: "Character pattern", url: "https://youtu.be/uJA-GVWNjcc?si=o1SJLGV4sABQCC71" },
+                                        { title: "Functions in Python", url: "https://youtu.be/BVfCWuca9nw?si=FjMdY8naGUXCE-fk" },
+                                        { title: "Arguments in Python", url: "https://youtu.be/eci9iU_s6Ag?si=hcm3ZlWmWFYke0Eg" },
+                                        { title: "Lambda Function", url: "https://youtu.be/IljPHDyBRog?si=6gGnTFzqcvp5T2yM" },
+                                        { title: "Scope of Variables", url: "https://youtu.be/XN83IECAscM?si=18jF5ZZtNyRBwJm2" },
+                                        { title: "Python Modules", url: "https://youtu.be/XcfxkHrHTVE?si=L720SRvdDu10QxjE" },
+                                        { title: "Python Packages", url: "https://youtu.be/2ojPhQIjmPk?si=GMnhhsiFetoTzg0J" },
+                                        { title: "How to use String in Python", url: "https://youtu.be/Ctqi5Y4X-jA?si=Gl4zqHaa3sfxUXEd" },
+                                        { title: "Strings in Python", url: "https://youtu.be/Ctqi5Y4X-jA?si=c0OnlFgX9u_rcVYl" },
+                                        { title: "Arrays In Python", url: "https://youtu.be/phRshQSU-xA?si=1zeKUvt4sshJZLiP" },
+                                        { title: "OOP(Object Oriented Programming)", url: "https://youtu.be/-pEs-Bss8Wc?si=rwGJ2ZOx2iAYm8XR" },
+                                        { title: "FILES", url: "https://youtu.be/vuyb7CxZgbU?si=HENSjJQEA8JKx-Oq" },
+                                        { title: "EXCEPTION HANDLING", url: "https://youtu.be/NIWwJbo-9_8?si=oaKH431vZRxLGRYZ" },
+                                        { title: "LISTS", url: "https://youtu.be/1tnFQDo05hQ?si=k8-SiYCbLj_Gtfvx" },
+                                        { title: "Tuples", url: "https://youtu.be/R8mOaSIHT8U?si=9tuvmeQhZN1QuGhH" },
+                                        { title: "DICTIONARY", url: "https://youtu.be/2IsF7DEtVjg?si=sOy59ARJWqcdRUiq" },
+                                        { title: "SETS", url: "https://youtu.be/t9j8lCUGZXo?si=GoHLZVJ_ZI4GtV53" }
+                                ]
+                            }
+                        }
+                    }
+                }
+            },
+            eee: {
+                name: "Electrical Engineering",
+                color: "#4ECDC4",
+                icon: "⚡",
+                semesters: {
+                    "1": {
+                        name: "Semester 1",
+                        color: "#A0E7E5",
+                        subjects: {
+                            "basic-ee": {
+                                name: "Basic Electrical Engineering",
+                                color: "#4ECDC4",
+                                icon: "🔌",
+                                videos: [
+                                    { title: "Circuit Fundamentals", url: "https://www.youtube.com/embed/YOUR_VIDEO_ID_11" },
+                                    { title: "Ohm's Law Explained", url: "https://www.youtube.com/embed/YOUR_VIDEO_ID_12" }
+                                ]
+                            },
+                            "maths": {
+                                name: "Mathematics",
+                                color: "#44B9B1",
+                                icon: "🔢",
+                                videos: [
+                                    { title: "What is functions", url: "https://youtu.be/52tpYl2tTqk?feature=shared" },
+                                    { title: "Introduction of matrix", url: "https://youtu.be/yRwQ7A6jVLk?si=zFUf3NY1QkH00AsQ" },
+                                    { title: "Geometrical understanding of Trigonometric functions", url: "https://youtu.be/aHMKSqVvWaI?si=03A9ccA7nGrLDRjy" },
+                                    { title: "Introduction to Inverse Trigonometric Functions", url: "https://youtu.be/ADpxUQMCSng?si=zMCjN8hGC4RmC7Gr" },
+                                    { title: "Introduction to Limits", url: "https://youtu.be/riXcZT2ICjA?si=ijqGyzcNah-ePc21" },
+                                    { title: "Derivative of a function", url: "https://youtu.be/lowavG2SXsQ?si=NcggDo-y-80y6k9Z" },
+                                    { title: "Finding Maxima & Minima", url: "https://youtu.be/pvLj1s7SOtk?si=epL8onoOhRJsEEJP" }
+                                ]
+                            },
+                            "chemistry": {
+                                name: "Chemistry",
+                                color: "#FF8C42",
+                                icon: "🧪",
+                                videos: [
+                                     { title: "Photoelectric Effect Einstein's Photon Theory", url: "https://www.youtube.com/watch?v=hHfDFNeUDVs" },
+                                    { title: "Green Chemistry Principles", url: "https://youtu.be/C2pN3l2BGc4" },
+                                    { title: "Water pollution | What is water pollution ? | effects of Water pollution | How does water gets dirty", url: "https://youtu.be/8sCL4w9d_YE" },
+                                    { title: "Ways To Prevent Water Pollution", url: "https://youtu.be/sYIoPIstObU" },
+                                    { title: "13Acid Rain", url: "https://youtu.be/dmgLESI4GGU" },
+                                    { title: "Ways To Prevent Air Pollution", url: "https://youtu.be/sYIoPIstObU" },
+                                    { title: "What is E-WASTE Pollution? | What Causes Electronic Waste? | The Dr Binocs Show Peekaboo Kidz", url: "https://youtu.be/MQLadfsvfLo?si=tLuY-brSVy2WyQ0g" },
+                                    { title: "Causes of ozone layer depletion | Ozone layer depletion | what is ozone hole", url: "https://youtu.be/DzLqp6TpcQA" },
+                                    { title: "Bohrs atomic theory", url: "https://youtu.be/y9kWdegtrs0?si=DDIfRlVHAdQAq-sK" },
+                                    { title: "Zeeman effect and stark effect", url: "https://youtu.be/t3r--MnB-DE?si=1bnop8aUOSxbLvY7" },
+                                    { title: "Ionic compound", url: "https://youtu.be/TxHi5FtMYKk?si=VaUe6LHnaJN3VZB4" },
+                                    { title: "Covalent Bonding", url: "https://youtu.be/0HfN3CvXP2M?si=2OZndQ4S_aMlZbmP" },
+                                    { title: "Properties of covalent compound", url: "https://youtu.be/VrahlMquOKU?si=-f9S6N-tSwHdlcgx" },
+                                    { title: "Ionic compound diffrent covalent compound", url: "https://youtu.be/OTgpN62ou24?si=CuAVYzVvN5oh3LwB" },
+                                    { title: "Unsaturated and saturated and supersaturater", url: "https://youtu.be/CmnLujnwQ2c?si=i__v-jc75JZm43bg" },
+                                    { title: "Normality", url: "https://youtu.be/4QTv-aM7vGo?si=nfqzH1abqyWjjTrF" },
+                                    { title: "Buffer Solution", url: "https://youtu.be/8U5tP6GL9wM?si=3k6AJJ8ngCIE1VPu" },
+                                    { title: "pH in Life", url: "https://youtu.be/r3hirzlWILM?si=vN8YDXsponckRfFB" },
+                                    { title: "Electrical conductivity", url: "https://youtu.be/QrONohBedtk?si=1rumDQ0bq8FLaE8y" },
+                                    { title: "Corrosion control", url: "https://youtu.be/lfT9L3ADkZw?si=_2-O4mj4R9ghrm-H" },
+                                    { title: "Working of lead acid battery", url: "https://youtu.be/HhxtfULIO7c?si=QjndZ3VYy6x7ci0F" },
+                                    { title: "How to lithium-ion battery working", url: "https://youtu.be/YFd0kb9Nwt0?si=WowNUORsu6aJreDf" },
+                                        { title: "Corrosion", url: "https://youtu.be/1BBqsZRegdg?si=QbNWEIcD_BLWx8L8" },
+                                        { title: "Ion exchange process", url: "https://youtu.be/ctlHNf1s6RM?si=_-D3jbPnYQiM4Re1" },
+                                        { title: "How does reverse osmosis work", url: "https://youtu.be/aVdWqbpbv_Y?si=snCR0ChZlZc7RY9P" },
+                                        { title: "Hydrogen molecules", url: "https://youtu.be/eoF2EoFhIJw?si=Dbz_uGNqHaJBgqu6" },
+                                        { title: "Important of Environmental studies", url: "https://youtu.be/hcGpoh_--8c?si=LmTRvj7db2vji6Wk" },
+                                        { title: "Environment Terms", url: "https://youtu.be/1bRER1ryGUU?si=tXbiMm6rmwlEp79t" },
+                                        { title: "Renewable", url: "https://youtu.be/PLBK1ux5b7U?si=zwHoQCWtjeGcyxDF" },
+                                        { title: "Non Renewable energy source", url: "https://youtu.be/KdR_6Taga5A?si=tNhvMIVJmPMJ-Gjz" },
+                                        { title: "Nuclear Reaction", url: "https://youtu.be/KRbFJjaTDJI?si=ZOmFNbMQ2FpYMP1J" },
+                                        { title: "Solar Energy", url: "https://youtu.be/8nJXN6kwyqA?si=XQWm8f4sL5cdjqhj" },
+                                        { title: "Wind Energy", url: "https://youtu.be/_8DtGAp1fyI?feature=shared" },
+                                            { title: "Forest Resources", url: "https://youtu.be/_8DtGAp1fyI?feature=shared" },
+                                            { title: "Deforestation", url: "https://youtu.be/vJnnrpSDWPI?si=7BpS5qHc8T2WINRB" },
+                                            { title: "Conservation of forests", url: "https://youtu.be/E_PmnoNN_z4?si=vTVi5gIjLDVlQ3im" },
+                                            { title: "Air pollution", url: "https://youtu.be/_zd07gPGuoc?si=a5yvZ3f7CrxcFzCh" },
+                                            { title: "Acid Rain", url: "https://youtu.be/dmgLESI4GGU?si=iWQq1UTCkn_a_z5U" },
+                                            { title: "Ozone Layer Depletion", url: "https://youtu.be/DzLqp6TpcQA?si=NgP38116BJdQ_-kC" }
+                                ]
+                            },
+                            "physics": {
+                                name: "Physics",
+                                color: "#FF5252",
+                                icon: "⚛️",
+                                videos: [
+                                     { title: "Photoelectric cell", url: "https://youtu.be/sFyUeP939gQ?si=jaHkmlh7Owl__-zF" },
+                                    { title: "Photoelectric effect", url: "https://youtu.be/hHfDFNeUDVs?si=SVYnZT5kg7jaN8R-" },
+                                     { title: "Total internal reflection", url: "https://youtu.be/zA8UfR-Eekk?si=7wv0maZB4hE7MToK" },
+                                    { title: "Optical fibres", url: "https://youtu.be/aylVgs2iDDw?si=2jEBayMh1NcXQ4ap" },
+                                     { title: "What is Nanotechnology", url: "https://youtu.be/-K7Gs0Nj-5o?si=SmFw0q3ySO7ZAETr" },
+                                    { title: "Energy gas", url: "https://youtu.be/5zz6LlDVRl0?si=rrFlMnzQakq-AJQX" },
+                                        { title: "Semiconductor", url: "https://youtu.be/8LUL2cBoJ48?si=U6rkgUBI5g29tlqG" },
+                                        { title: "Super conductor", url: "https://youtu.be/Gk91YQDMTCw?si=om2I3ubiZ9fAhlK0" }
+                                ]
+                            }
+                        }
+                    },
+                    "3": {
+                        name: "Semester 3",
+                        color: "#7FE5E0",
+                        subjects: {
+                            "ac-theory": {
+                                name: "AC Theory",
+                                color: "#4ECDC4",
+                                icon: "〰️",
+                                videos: [
+                                    { title: "Alternating Current Basics", url: "https://www.youtube.com/embed/YOUR_VIDEO_ID_14" },
+                                    { title: "Phasor Diagrams", url: "https://www.youtube.com/embed/YOUR_VIDEO_ID_15" }
+                                ]
+                            }
+                        }
+                    }
+                }
+            },
+            ece: {
+                name: "Electronics Engineering",
+                color: "#FFE66D",
+                icon: "📡",
+                semesters: {
+                    "1": {
+                        name: "Semester 1",
+                        color: "#FFECB3",
+                        subjects: {
+                            "basic-electronics": {
+                                name: "Basic Electronics",
+                                color: "#FFE66D",
+                                icon: "🔌",
+                                videos: [
+                                    { title: "Semiconductor Basics", url: "https://www.youtube.com/embed/YOUR_VIDEO_ID_16" },
+                                    { title: "Diodes and Transistors", url: "https://www.youtube.com/embed/YOUR_VIDEO_ID_17" }
+                                ]
+                            },
+                            "maths": {
+                                name: "Mathematics",
+                                color: "#FF6B6B",
+                                icon: "🔢",
+                                videos: [
+                                    { title: "What is functions", url: "https://youtu.be/52tpYl2tTqk?feature=shared" },
+                                    { title: "Introduction of matrix", url: "https://youtu.be/yRwQ7A6jVLk?si=zFUf3NY1QkH00AsQ" },
+                                    { title: "Geometrical understanding of Trigonometric functions", url: "https://youtu.be/aHMKSqVvWaI?si=03A9ccA7nGrLDRjy" },
+                                    { title: "Introduction to Inverse Trigonometric Functions", url: "https://youtu.be/ADpxUQMCSng?si=zMCjN8hGC4RmC7Gr" },
+                                    { title: "Introduction to Limits", url: "https://youtu.be/riXcZT2ICjA?si=ijqGyzcNah-ePc21" },
+                                    { title: "Derivative of a function", url: "https://youtu.be/lowavG2SXsQ?si=NcggDo-y-80y6k9Z" },
+                                    { title: "Finding Maxima & Minima", url: "https://youtu.be/pvLj1s7SOtk?si=epL8onoOhRJsEEJP" }
+                                ]
+                            },
+                            "chemistry": {
+                                name: "Chemistry",
+                                color: "#FF8C42",
+                                icon: "🧪",
+                                videos: [
+                                    { title: "Photoelectric Effect Einstein's Photon Theory", url: "https://www.youtube.com/watch?v=hHfDFNeUDVs" },
+                                    { title: "Green Chemistry Principles", url: "https://youtu.be/C2pN3l2BGc4" },
+                                    { title: "Water pollution | What is water pollution ? | effects of Water pollution | How does water gets dirty", url: "https://youtu.be/8sCL4w9d_YE" },
+                                    { title: "Ways To Prevent Water Pollution", url: "https://youtu.be/sYIoPIstObU" },
+                                    { title: "13Acid Rain", url: "https://youtu.be/dmgLESI4GGU" },
+                                    { title: "Ways To Prevent Air Pollution", url: "https://youtu.be/sYIoPIstObU" },
+                                    { title: "What is E-WASTE Pollution? | What Causes Electronic Waste? | The Dr Binocs Show Peekaboo Kidz", url: "https://youtu.be/MQLadfsvfLo?si=tLuY-brSVy2WyQ0g" },
+                                    { title: "Causes of ozone layer depletion | Ozone layer depletion | what is ozone hole", url: "https://youtu.be/DzLqp6TpcQA" },
+                                    { title: "Bohrs atomic theory", url: "https://youtu.be/y9kWdegtrs0?si=DDIfRlVHAdQAq-sK" },
+                                    { title: "Zeeman effect and stark effect", url: "https://youtu.be/t3r--MnB-DE?si=1bnop8aUOSxbLvY7" },
+                                    { title: "Ionic compound", url: "https://youtu.be/TxHi5FtMYKk?si=VaUe6LHnaJN3VZB4" },
+                                    { title: "Covalent Bonding", url: "https://youtu.be/0HfN3CvXP2M?si=2OZndQ4S_aMlZbmP" },
+                                    { title: "Properties of covalent compound", url: "https://youtu.be/VrahlMquOKU?si=-f9S6N-tSwHdlcgx" },
+                                    { title: "Ionic compound diffrent covalent compound", url: "https://youtu.be/OTgpN62ou24?si=CuAVYzVvN5oh3LwB" },
+                                    { title: "Unsaturated and saturated and supersaturater", url: "https://youtu.be/CmnLujnwQ2c?si=i__v-jc75JZm43bg" },
+                                    { title: "Normality", url: "https://youtu.be/4QTv-aM7vGo?si=nfqzH1abqyWjjTrF" },
+                                    { title: "Buffer Solution", url: "https://youtu.be/8U5tP6GL9wM?si=3k6AJJ8ngCIE1VPu" },
+                                    { title: "pH in Life", url: "https://youtu.be/r3hirzlWILM?si=vN8YDXsponckRfFB" },
+                                    { title: "Electrical conductivity", url: "https://youtu.be/QrONohBedtk?si=1rumDQ0bq8FLaE8y" },
+                                    { title: "Corrosion control", url: "https://youtu.be/lfT9L3ADkZw?si=_2-O4mj4R9ghrm-H" },
+                                    { title: "Working of lead acid battery", url: "https://youtu.be/HhxtfULIO7c?si=QjndZ3VYy6x7ci0F" },
+                                    { title: "How to lithium-ion battery working", url: "https://youtu.be/YFd0kb9Nwt0?si=WowNUORsu6aJreDf" },
+                                        { title: "Corrosion", url: "https://youtu.be/1BBqsZRegdg?si=QbNWEIcD_BLWx8L8" },
+                                        { title: "Ion exchange process", url: "https://youtu.be/ctlHNf1s6RM?si=_-D3jbPnYQiM4Re1" },
+                                        { title: "How does reverse osmosis work", url: "https://youtu.be/aVdWqbpbv_Y?si=snCR0ChZlZc7RY9P" },
+                                        { title: "Hydrogen molecules", url: "https://youtu.be/eoF2EoFhIJw?si=Dbz_uGNqHaJBgqu6" },
+                                        { title: "Important of Environmental studies", url: "https://youtu.be/hcGpoh_--8c?si=LmTRvj7db2vji6Wk" },
+                                        { title: "Environment Terms", url: "https://youtu.be/1bRER1ryGUU?si=tXbiMm6rmwlEp79t" },
+                                        { title: "Renewable", url: "https://youtu.be/PLBK1ux5b7U?si=zwHoQCWtjeGcyxDF" },
+                                        { title: "Non Renewable energy source", url: "https://youtu.be/KdR_6Taga5A?si=tNhvMIVJmPMJ-Gjz" },
+                                        { title: "Nuclear Reaction", url: "https://youtu.be/KRbFJjaTDJI?si=ZOmFNbMQ2FpYMP1J" },
+                                        { title: "Solar Energy", url: "https://youtu.be/8nJXN6kwyqA?si=XQWm8f4sL5cdjqhj" },
+                                        { title: "Wind Energy", url: "https://youtu.be/_8DtGAp1fyI?feature=shared" },
+                                            { title: "Forest Resources", url: "https://youtu.be/_8DtGAp1fyI?feature=shared" },
+                                            { title: "Deforestation", url: "https://youtu.be/vJnnrpSDWPI?si=7BpS5qHc8T2WINRB" },
+                                            { title: "Conservation of forests", url: "https://youtu.be/E_PmnoNN_z4?si=vTVi5gIjLDVlQ3im" },
+                                            { title: "Air pollution", url: "https://youtu.be/_zd07gPGuoc?si=a5yvZ3f7CrxcFzCh" },
+                                            { title: "Acid Rain", url: "https://youtu.be/dmgLESI4GGU?si=iWQq1UTCkn_a_z5U" },
+                                            { title: "Ozone Layer Depletion", url: "https://youtu.be/DzLqp6TpcQA?si=NgP38116BJdQ_-kC" }
+                                ]
+                            },
+                            "physics": {
+                                name: "Physics",
+                                color: "#FF5252",
+                                icon: "⚛️",
+                                videos: [
+                                     { title: "Photoelectric cell", url: "https://youtu.be/sFyUeP939gQ?si=jaHkmlh7Owl__-zF" },
+                                    { title: "Photoelectric effect", url: "https://youtu.be/hHfDFNeUDVs?si=SVYnZT5kg7jaN8R-" },
+                                     { title: "Total internal reflection", url: "https://youtu.be/zA8UfR-Eekk?si=7wv0maZB4hE7MToK" },
+                                    { title: "Optical fibres", url: "https://youtu.be/aylVgs2iDDw?si=2jEBayMh1NcXQ4ap" },
+                                     { title: "What is Nanotechnology", url: "https://youtu.be/-K7Gs0Nj-5o?si=SmFw0q3ySO7ZAETr" },
+                                    { title: "Energy gas", url: "https://youtu.be/5zz6LlDVRl0?si=rrFlMnzQakq-AJQX" },
+                                        { title: "Semiconductor", url: "https://youtu.be/8LUL2cBoJ48?si=U6rkgUBI5g29tlqG" },
+                                        { title: "Super conductor", url: "https://youtu.be/Gk91YQDMTCw?si=om2I3ubiZ9fAhlK0" }
+                                ]
+                            }
+                        }
+                    }
+                }
+            },
+            me: {
+                name: "Mechanical Engineering",
+                color: "#95E1D3",
+                icon: "⚙️",
+                semesters: {
+                    "1": {
+                        name: "Semester 1",
+                        color: "#C7F0E8",
+                        subjects: {
+                            "engineering-mech": {
+                                name: "Engineering Mechanics",
+                                color: "#95E1D3",
+                                icon: "🔧",
+                                videos: [
+                                    { title: "Statics and Dynamics", url: "https://www.youtube.com/embed/YOUR_VIDEO_ID_18" }
+                                ]
+                            },
+                            "maths": {
+                                name: "Mathematics",
+                                color: "#FF6B6B",
+                                icon: "🔢",
+                                videos: [
+                                    { title: "What is functions", url: "https://youtu.be/52tpYl2tTqk?feature=shared" },
+                                    { title: "Introduction of matrix", url: "https://youtu.be/yRwQ7A6jVLk?si=zFUf3NY1QkH00AsQ" },
+                                    { title: "Geometrical understanding of Trigonometric functions", url: "https://youtu.be/aHMKSqVvWaI?si=03A9ccA7nGrLDRjy" },
+                                    { title: "Introduction to Inverse Trigonometric Functions", url: "https://youtu.be/ADpxUQMCSng?si=zMCjN8hGC4RmC7Gr" },
+                                    { title: "Introduction to Limits", url: "https://youtu.be/riXcZT2ICjA?si=ijqGyzcNah-ePc21" },
+                                    { title: "Derivative of a function", url: "https://youtu.be/lowavG2SXsQ?si=NcggDo-y-80y6k9Z" },
+                                    { title: "Finding Maxima & Minima", url: "https://youtu.be/pvLj1s7SOtk?si=epL8onoOhRJsEEJP" }
+                                ]
+                            },
+                            "chemistry": {
+                                name: "Chemistry",
+                                color: "#FF8C42",
+                                icon: "🧪",
+                                videos: [
+                                     { title: "Photoelectric Effect Einstein's Photon Theory", url: "https://www.youtube.com/watch?v=hHfDFNeUDVs" },
+                                    { title: "Green Chemistry Principles", url: "https://youtu.be/C2pN3l2BGc4" },
+                                    { title: "Water pollution | What is water pollution ? | effects of Water pollution | How does water gets dirty", url: "https://youtu.be/8sCL4w9d_YE" },
+                                    { title: "Ways To Prevent Water Pollution", url: "https://youtu.be/sYIoPIstObU" },
+                                    { title: "13Acid Rain", url: "https://youtu.be/dmgLESI4GGU" },
+                                    { title: "Ways To Prevent Air Pollution", url: "https://youtu.be/sYIoPIstObU" },
+                                    { title: "What is E-WASTE Pollution? | What Causes Electronic Waste? | The Dr Binocs Show Peekaboo Kidz", url: "https://youtu.be/MQLadfsvfLo?si=tLuY-brSVy2WyQ0g" },
+                                    { title: "Causes of ozone layer depletion | Ozone layer depletion | what is ozone hole", url: "https://youtu.be/DzLqp6TpcQA" },
+                                    { title: "Bohrs atomic theory", url: "https://youtu.be/y9kWdegtrs0?si=DDIfRlVHAdQAq-sK" },
+                                    { title: "Zeeman effect and stark effect", url: "https://youtu.be/t3r--MnB-DE?si=1bnop8aUOSxbLvY7" },
+                                    { title: "Ionic compound", url: "https://youtu.be/TxHi5FtMYKk?si=VaUe6LHnaJN3VZB4" },
+                                    { title: "Covalent Bonding", url: "https://youtu.be/0HfN3CvXP2M?si=2OZndQ4S_aMlZbmP" },
+                                    { title: "Properties of covalent compound", url: "https://youtu.be/VrahlMquOKU?si=-f9S6N-tSwHdlcgx" },
+                                    { title: "Ionic compound diffrent covalent compound", url: "https://youtu.be/OTgpN62ou24?si=CuAVYzVvN5oh3LwB" },
+                                    { title: "Unsaturated and saturated and supersaturater", url: "https://youtu.be/CmnLujnwQ2c?si=i__v-jc75JZm43bg" },
+                                    { title: "Normality", url: "https://youtu.be/4QTv-aM7vGo?si=nfqzH1abqyWjjTrF" },
+                                    { title: "Buffer Solution", url: "https://youtu.be/8U5tP6GL9wM?si=3k6AJJ8ngCIE1VPu" },
+                                    { title: "pH in Life", url: "https://youtu.be/r3hirzlWILM?si=vN8YDXsponckRfFB" },
+                                    { title: "Electrical conductivity", url: "https://youtu.be/QrONohBedtk?si=1rumDQ0bq8FLaE8y" },
+                                    { title: "Corrosion control", url: "https://youtu.be/lfT9L3ADkZw?si=_2-O4mj4R9ghrm-H" },
+                                    { title: "Working of lead acid battery", url: "https://youtu.be/HhxtfULIO7c?si=QjndZ3VYy6x7ci0F" },
+                                    { title: "How to lithium-ion battery working", url: "https://youtu.be/YFd0kb9Nwt0?si=WowNUORsu6aJreDf" },
+                                        { title: "Corrosion", url: "https://youtu.be/1BBqsZRegdg?si=QbNWEIcD_BLWx8L8" },
+                                        { title: "Ion exchange process", url: "https://youtu.be/ctlHNf1s6RM?si=_-D3jbPnYQiM4Re1" },
+                                        { title: "How does reverse osmosis work", url: "https://youtu.be/aVdWqbpbv_Y?si=snCR0ChZlZc7RY9P" },
+                                        { title: "Hydrogen molecules", url: "https://youtu.be/eoF2EoFhIJw?si=Dbz_uGNqHaJBgqu6" },
+                                        { title: "Important of Environmental studies", url: "https://youtu.be/hcGpoh_--8c?si=LmTRvj7db2vji6Wk" },
+                                        { title: "Environment Terms", url: "https://youtu.be/1bRER1ryGUU?si=tXbiMm6rmwlEp79t" },
+                                        { title: "Renewable", url: "https://youtu.be/PLBK1ux5b7U?si=zwHoQCWtjeGcyxDF" },
+                                        { title: "Non Renewable energy source", url: "https://youtu.be/KdR_6Taga5A?si=tNhvMIVJmPMJ-Gjz" },
+                                        { title: "Nuclear Reaction", url: "https://youtu.be/KRbFJjaTDJI?si=ZOmFNbMQ2FpYMP1J" },
+                                        { title: "Solar Energy", url: "https://youtu.be/8nJXN6kwyqA?si=XQWm8f4sL5cdjqhj" },
+                                        { title: "Wind Energy", url: "https://youtu.be/_8DtGAp1fyI?feature=shared" },
+                                            { title: "Forest Resources", url: "https://youtu.be/_8DtGAp1fyI?feature=shared" },
+                                            { title: "Deforestation", url: "https://youtu.be/vJnnrpSDWPI?si=7BpS5qHc8T2WINRB" },
+                                            { title: "Conservation of forests", url: "https://youtu.be/E_PmnoNN_z4?si=vTVi5gIjLDVlQ3im" },
+                                            { title: "Air pollution", url: "https://youtu.be/_zd07gPGuoc?si=a5yvZ3f7CrxcFzCh" },
+                                            { title: "Acid Rain", url: "https://youtu.be/dmgLESI4GGU?si=iWQq1UTCkn_a_z5U" },
+                                            { title: "Ozone Layer Depletion", url: "https://youtu.be/DzLqp6TpcQA?si=NgP38116BJdQ_-kC" }
+                                ]
+                            },
+                            "physics": {
+                                name: "Physics",
+                                color: "#FF5252",
+                                icon: "⚛️",
+                                videos: [
+                                     { title: "Photoelectric cell", url: "https://youtu.be/sFyUeP939gQ?si=jaHkmlh7Owl__-zF" },
+                                    { title: "Photoelectric effect", url: "https://youtu.be/hHfDFNeUDVs?si=SVYnZT5kg7jaN8R-" },
+                                     { title: "Total internal reflection", url: "https://youtu.be/zA8UfR-Eekk?si=7wv0maZB4hE7MToK" },
+                                    { title: "Optical fibres", url: "https://youtu.be/aylVgs2iDDw?si=2jEBayMh1NcXQ4ap" },
+                                     { title: "What is Nanotechnology", url: "https://youtu.be/-K7Gs0Nj-5o?si=SmFw0q3ySO7ZAETr" },
+                                    { title: "Energy gas", url: "https://youtu.be/5zz6LlDVRl0?si=rrFlMnzQakq-AJQX" },
+                                        { title: "Semiconductor", url: "https://youtu.be/8LUL2cBoJ48?si=U6rkgUBI5g29tlqG" },
+                                        { title: "Super conductor", url: "https://youtu.be/Gk91YQDMTCw?si=om2I3ubiZ9fAhlK0" }
+                                ]
+                            }
+                        }
+                    }
+                }
+            },
+            ce: {
+                name: "Civil Engineering",
+                color: "#C7CEEA",
+                icon: "🏗️",
+                semesters: {
+                    "1": {
+                        name: "Semester 1",
+                        color: "#E5E8F5",
+                        subjects: {
+                            "surveying": {
+                                name: "Surveying Basics",
+                                color: "#C7CEEA",
+                                icon: "📐",
+                                videos: [
+                                    { title: "Introduction to Surveying", url: "https://www.youtube.com/embed/YOUR_VIDEO_ID_19" }
+                                ]
+                            },
+                            "maths": {
+                                name: "Mathematics",
+                                color: "#FF6B6B",
+                                icon: "🔢",
+                                videos: [
+                                    { title: "What is functions", url: "https://youtu.be/52tpYl2tTqk?feature=shared" },
+                                    { title: "Introduction of matrix", url: "https://youtu.be/yRwQ7A6jVLk?si=zFUf3NY1QkH00AsQ" },
+                                    { title: "Geometrical understanding of Trigonometric functions", url: "https://youtu.be/aHMKSqVvWaI?si=03A9ccA7nGrLDRjy" },
+                                    { title: "Introduction to Inverse Trigonometric Functions", url: "https://youtu.be/ADpxUQMCSng?si=zMCjN8hGC4RmC7Gr" },
+                                    { title: "Introduction to Limits", url: "https://youtu.be/riXcZT2ICjA?si=ijqGyzcNah-ePc21" },
+                                    { title: "Derivative of a function", url: "https://youtu.be/lowavG2SXsQ?si=NcggDo-y-80y6k9Z" },
+                                    { title: "Finding Maxima & Minima", url: "https://youtu.be/pvLj1s7SOtk?si=epL8onoOhRJsEEJP" }
+                                ]
+                            },
+                            "chemistry": {
+                                name: "Chemistry",
+                                color: "#FF8C42",
+                                icon: "🧪",
+                                videos: [
+                                    { title: "Photoelectric Effect Einstein's Photon Theory", url: "https://www.youtube.com/watch?v=hHfDFNeUDVs" },
+                                    { title: "Green Chemistry Principles", url: "https://youtu.be/C2pN3l2BGc4" },
+                                    { title: "Water pollution | What is water pollution ? | effects of Water pollution | How does water gets dirty", url: "https://youtu.be/8sCL4w9d_YE" },
+                                    { title: "Ways To Prevent Water Pollution", url: "https://youtu.be/sYIoPIstObU" },
+                                    { title: "13Acid Rain", url: "https://youtu.be/dmgLESI4GGU" },
+                                    { title: "Ways To Prevent Air Pollution", url: "https://youtu.be/sYIoPIstObU" },
+                                    { title: "What is E-WASTE Pollution? | What Causes Electronic Waste? | The Dr Binocs Show Peekaboo Kidz", url: "https://youtu.be/MQLadfsvfLo?si=tLuY-brSVy2WyQ0g" },
+                                    { title: "Causes of ozone layer depletion | Ozone layer depletion | what is ozone hole", url: "https://youtu.be/DzLqp6TpcQA" },
+                                    { title: "Bohrs atomic theory", url: "https://youtu.be/y9kWdegtrs0?si=DDIfRlVHAdQAq-sK" },
+                                    { title: "Zeeman effect and stark effect", url: "https://youtu.be/t3r--MnB-DE?si=1bnop8aUOSxbLvY7" },
+                                    { title: "Ionic compound", url: "https://youtu.be/TxHi5FtMYKk?si=VaUe6LHnaJN3VZB4" },
+                                    { title: "Covalent Bonding", url: "https://youtu.be/0HfN3CvXP2M?si=2OZndQ4S_aMlZbmP" },
+                                    { title: "Properties of covalent compound", url: "https://youtu.be/VrahlMquOKU?si=-f9S6N-tSwHdlcgx" },
+                                    { title: "Ionic compound diffrent covalent compound", url: "https://youtu.be/OTgpN62ou24?si=CuAVYzVvN5oh3LwB" },
+                                    { title: "Unsaturated and saturated and supersaturater", url: "https://youtu.be/CmnLujnwQ2c?si=i__v-jc75JZm43bg" },
+                                    { title: "Normality", url: "https://youtu.be/4QTv-aM7vGo?si=nfqzH1abqyWjjTrF" },
+                                    { title: "Buffer Solution", url: "https://youtu.be/8U5tP6GL9wM?si=3k6AJJ8ngCIE1VPu" },
+                                    { title: "pH in Life", url: "https://youtu.be/r3hirzlWILM?si=vN8YDXsponckRfFB" },
+                                    { title: "Electrical conductivity", url: "https://youtu.be/QrONohBedtk?si=1rumDQ0bq8FLaE8y" },
+                                    { title: "Corrosion control", url: "https://youtu.be/lfT9L3ADkZw?si=_2-O4mj4R9ghrm-H" },
+                                    { title: "Working of lead acid battery", url: "https://youtu.be/HhxtfULIO7c?si=QjndZ3VYy6x7ci0F" },
+                                    { title: "How to lithium-ion battery working", url: "https://youtu.be/YFd0kb9Nwt0?si=WowNUORsu6aJreDf" },
+                                        { title: "Corrosion", url: "https://youtu.be/1BBqsZRegdg?si=QbNWEIcD_BLWx8L8" },
+                                        { title: "Ion exchange process", url: "https://youtu.be/ctlHNf1s6RM?si=_-D3jbPnYQiM4Re1" },
+                                        { title: "How does reverse osmosis work", url: "https://youtu.be/aVdWqbpbv_Y?si=snCR0ChZlZc7RY9P" },
+                                        { title: "Hydrogen molecules", url: "https://youtu.be/eoF2EoFhIJw?si=Dbz_uGNqHaJBgqu6" },
+                                        { title: "Important of Environmental studies", url: "https://youtu.be/hcGpoh_--8c?si=LmTRvj7db2vji6Wk" },
+                                        { title: "Environment Terms", url: "https://youtu.be/1bRER1ryGUU?si=tXbiMm6rmwlEp79t" },
+                                        { title: "Renewable", url: "https://youtu.be/PLBK1ux5b7U?si=zwHoQCWtjeGcyxDF" },
+                                        { title: "Non Renewable energy source", url: "https://youtu.be/KdR_6Taga5A?si=tNhvMIVJmPMJ-Gjz" },
+                                        { title: "Nuclear Reaction", url: "https://youtu.be/KRbFJjaTDJI?si=ZOmFNbMQ2FpYMP1J" },
+                                        { title: "Solar Energy", url: "https://youtu.be/8nJXN6kwyqA?si=XQWm8f4sL5cdjqhj" },
+                                        { title: "Wind Energy", url: "https://youtu.be/_8DtGAp1fyI?feature=shared" },
+                                            { title: "Forest Resources", url: "https://youtu.be/_8DtGAp1fyI?feature=shared" },
+                                            { title: "Deforestation", url: "https://youtu.be/vJnnrpSDWPI?si=7BpS5qHc8T2WINRB" },
+                                            { title: "Conservation of forests", url: "https://youtu.be/E_PmnoNN_z4?si=vTVi5gIjLDVlQ3im" },
+                                            { title: "Air pollution", url: "https://youtu.be/_zd07gPGuoc?si=a5yvZ3f7CrxcFzCh" },
+                                            { title: "Acid Rain", url: "https://youtu.be/dmgLESI4GGU?si=iWQq1UTCkn_a_z5U" },
+                                            { title: "Ozone Layer Depletion", url: "https://youtu.be/DzLqp6TpcQA?si=NgP38116BJdQ_-kC" }
+                                ]
+                            },
+                            "physics": {
+                                name: "Physics",
+                                color: "#FF5252",
+                                icon: "⚛️",
+                                videos: [
+                                    { title: "Photoelectric cell", url: "https://youtu.be/sFyUeP939gQ?si=jaHkmlh7Owl__-zF" },
+                                    { title: "Photoelectric effect", url: "https://youtu.be/hHfDFNeUDVs?si=SVYnZT5kg7jaN8R-" },
+                                     { title: "Total internal reflection", url: "https://youtu.be/zA8UfR-Eekk?si=7wv0maZB4hE7MToK" },
+                                    { title: "Optical fibres", url: "https://youtu.be/aylVgs2iDDw?si=2jEBayMh1NcXQ4ap" },
+                                     { title: "What is Nanotechnology", url: "https://youtu.be/-K7Gs0Nj-5o?si=SmFw0q3ySO7ZAETr" },
+                                    { title: "Energy gas", url: "https://youtu.be/5zz6LlDVRl0?si=rrFlMnzQakq-AJQX" },
+                                        { title: "Semiconductor", url: "https://youtu.be/8LUL2cBoJ48?si=U6rkgUBI5g29tlqG" },
+                                        { title: "Super conductor", url: "https://youtu.be/Gk91YQDMTCw?si=om2I3ubiZ9fAhlK0" }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+// ---------- FUNCTIONS ----------
+
+// Convert any YouTube link to embed format
+function convertToEmbed(url){
+    if(url.includes("youtu.be/")){
+        return "https://www.youtube.com/embed/" +
+        url.split("youtu.be/")[1].split("?")[0];
+    }
+    if(url.includes("watch?v=")){
+        return "https://www.youtube.com/embed/" +
+        url.split("watch?v=")[1].split("&")[0];
+    }
+    return url;
+}
+
+function updateSemesters(){
+    const branch=document.getElementById("branch").value;
+    const semester=document.getElementById("semester");
+    semester.innerHTML='<option value="">Select Semester</option>';
+    document.getElementById("subject").innerHTML='<option value="">Select Subject</option>';
+    document.getElementById("videosGrid").innerHTML="";
+
+    if(!branch) return;
+
+    const semData=coursesData[branch].semesters;
+    for(const key in semData){
+        semester.innerHTML+=`<option value="${key}">Semester ${key}</option>`;
+    }
+}
+
+function updateSubjects(){
+    const branch=document.getElementById("branch").value;
+    const semester=document.getElementById("semester").value;
+    const subject=document.getElementById("subject");
+
+    subject.innerHTML='<option value="">Select Subject</option>';
+    document.getElementById("videosGrid").innerHTML="";
+
+    if(!branch||!semester) return;
+
+    const subData=coursesData[branch].semesters[semester].subjects;
+    for(const key in subData){
+        subject.innerHTML+=`<option value="${key}">${key}</option>`;
+    }
+}
+
+function loadVideos(){
+    const branch=document.getElementById("branch").value;
+    const semester=document.getElementById("semester").value;
+    const subject=document.getElementById("subject").value;
+    const grid=document.getElementById("videosGrid");
+
+    grid.innerHTML="";
+
+    if(!branch||!semester||!subject) return;
+
+    const videos=coursesData[branch].semesters[semester].subjects[subject].videos;
+
+    videos.forEach(video=>{
+        const embedURL=convertToEmbed(video.url);
+
+        grid.innerHTML+=`
+        <div class="video-card">
+            <div class="video-wrapper">
+                <iframe src="${embedURL}"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+            </div>
+            <h3>${video.title}</h3>
+        </div>
+        `;
+    });
+}
+
+// On page load, check for query parameters to pre-select filters
+(function handleQueryParams(){
+    const params = new URLSearchParams(window.location.search);
+    const branchParam = params.get('branch');
+    const semParam = params.get('semester');
+    const subjectParam = params.get('subject');
+
+    if(branchParam){
+        const branchValue = branchParam.toLowerCase();
+        const branchSelect = document.getElementById('branch');
+        if(coursesData[branchValue]){
+            branchSelect.value = branchValue;
+            updateSemesters();
+
+            if(semParam && coursesData[branchValue].semesters[semParam]){
+                document.getElementById('semester').value = semParam;
+                updateSubjects();
+
+                if(subjectParam){
+                    // try to match subject key or name
+                    const subs = coursesData[branchValue].semesters[semParam].subjects;
+                    let matchKey = null;
+                    for(const key in subs){
+                        if(key.toLowerCase() === subjectParam.toLowerCase() ||
+                           subs[key].name && subs[key].name.toLowerCase() === subjectParam.toLowerCase()){
+                            matchKey = key;
+                            break;
+                        }
+                    }
+                    if(matchKey){
+                        document.getElementById('subject').value = matchKey;
+                        loadVideos();
+                    }
+                }
+            }
+        }
+    }
+})();
+
+</script>
+
+</body>
+</html>

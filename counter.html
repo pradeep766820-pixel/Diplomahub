@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diploma Students Portal</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Header */
+        header {
+            background: rgba(0, 0, 0, 0.85);
+            padding: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            color: white;
+            font-family: sans-serif;
+        }
+
+        header .logo h2 { margin: 0; color: #667eea; }
+
+        header nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+            padding: 10px 0 0 0;
+            margin: 0;
+        }
+
+        header nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* Form Design */
+        body {
+            background-color: #f4f7f6;
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 40px auto;
+            padding: 25px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        label {
+            display: block;
+            margin: 15px 0 5px 0;
+            font-weight: 600;
+            color: #333;
+        }
+
+        /* Input and Select matching */
+        input[type="email"], select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box; /* Crucial for alignment */
+        }
+
+        input[type="email"]:focus, select:focus {
+            border-color: #667eea;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
+        /* Results List */
+        .subject-link {
+            display: block;
+            padding: 15px;
+            margin: 10px 0;
+            background: #f8f9ff;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 8px;
+            border-left: 5px solid #667eea;
+            font-weight: 600;
+        }
+
+        /* layout for results rows */
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .video-btn {
+            padding: 12px 20px;
+            background: #ff4500;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .video-btn:hover {
+            background: #e03e00;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo"><h2>🎓 Diploma Students Portal</h2></div>
+        <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="Videos.html">Videos</a></li>
+        <li><a href="contact.html" class="active">Contact</a></li>
+      </ul>
+    </nav>
+    </header>
+    
+    <div class="container">
+        <label>Student Email:</label>
+        <input type="email" id="userEmail" placeholder="Enter your email" required>
+
+        <label>Choose Branch:</label>
+        <select id="branch">
+            <option value="">-- Select Branch --</option>
+            <option value="CME">Computer Science</option>
+            <option value="EEE">Electrical</option>
+            <option value="ECE">Electronics</option>
+            <option value="ME">Mechanical</option>
+            <option value="CE">Civil</option>
+        </select>
+
+        <label>Choose Semester:</label>
+        <select id="semester">
+            <option value="">-- Select Semester --</option>
+            <option value="1">1 YEAR</option>
+            <option value="3">Semester 3</option>
+            <option value="4">Semester 4</option>
+            <option value="5">Semester 5</option>
+        </select>
+        
+        <button onclick="getSubjects()">Find Papers</button>
+        <div id="results"></div>
+    </div>
+
+    <script>
+    // This is your "Database"
+
+    const data = {
+
+        "CME": {
+
+            "1": [
+
+                { name: "English", link: "https://drive.google.com/file/d/14WTkyJe6nGNWp0VAhxHMpKgVhSDthQQt/view?usp=drive_link" },
+
+                { name: "Mathematics I", link: "https://drive.google.com/file/d/1CRhndUwQmfcYB-hGIrWBz0kfSAl9gEb1/view?usp=drive_link" },
+
+                { name: "Physics", link: "https://drive.google.com/file/d/1L7FDh71vg4GQY4_tYS5RjmpydZSO69qK/view?usp=drive_link" },
+
+                { name: "Chemistry", link: "https://drive.google.com/file/d/1qn8gDZykSlVHnekx2a34MgGLXKgZZ_Qj/view?usp=drive_link" },
+
+                { name: "Basic Computer Engineering", link: "https://drive.google.com/file/d/154ot-twN7D1q35WM43fx59GGzyVHugW-/view?usp=drive_link" },
+
+                { name: "C Programming", link: "https://drive.google.com/file/d/1YnUguuxpfQ9iFyq8j-RkNeXKdFWb8ntq/view?usp=drive_link" },
+
+                { name: "Engineering Drawing", link: "https://drive.google.com/file/d/1pgUBQW7vrTd4-rSFGzesT0wRitXU6Gqp/view?usp=drive_link" }
+
+            ],
+
+            "3": [
+
+                { name: "Mathematics II", link: "https://drive.google.com/file/d/1BuaivsUyngjTK4pboXfeBsQayUgOumox/view?usp=drive_link" },
+
+                { name: "Digital Electronics", link: "https://drive.google.com/file/d/1pjE2sAPBVMu9Sa1gGS3rg874polIcaXt/view?usp=drive_link" },
+
+                { name: "Data Structures", link: "https://drive.google.com/file/d/1swxfhZIdcOkiV2XvUv_mvvAZ_9QwJtiT/view?usp=drive_link" },
+
+                { name: "Operating Systems ", link: "https://drive.google.com/file/d/19OGh03my7krGdXhYb5eoSqRuuhKC-nK9/view?usp=drive_link" },
+
+                { name: "DBMS", link: "https://drive.google.com/file/d/1yUB9cAVJFdvnVkEVvPluGWvE5KcpTiVP/view?usp=drive_link" }
+
+            ],
+
+            "4": [
+
+                { name: "CN & CS", link: "https://drive.google.com/file/d/1mQDzogCXDKYNm9ogqRTiUj4uqkCWoG3o/view?usp=sharing" },
+
+                { name: "Software Engineering", link: "https://drive.google.com/file/d/1NGJi_oP6kgxAYtPXh6YlzkESIZPAO78Z/view?usp=drive_link" },
+
+                { name: "CO & MP", link: "https://drive.google.com/file/d/1B6mNIpsyql0pgH2b5XK-a0Nbc4g4rlWc/view?usp=drive_link" },
+
+                { name: "Web Technology", link: "https://drive.google.com/file/d/1jMaf8TIlZ_bDhbOeAjsdCb4yrR8L0V5r/view?usp=drive_link" },
+
+                { name: "Java Programming", link: "https://drive.google.com/file/d/1cDmCjnBKoap22yLlW218_nZjXBr8crwW/view?usp=drive_link" }
+
+            ],
+
+            "5": [
+
+                { name: "Industrial Management & Entrepreneurship", link: "https://drive.google.com/file/d/13PWkZyiaBuY0b2Hxretd3K9KseEZvhp5/view?usp=drive_link" },
+
+            { name: "Big Data & Cloud Computing", link: "https://drive.google.com/file/d/1-vbuinbiaQ_RXpeSIG5skN_IBJVsO1kN/view?usp=drive_link" },
+
+                { name: "Android Programming", link: "https://drive.google.com/file/d/1Y4fGkgLUSxYCivuHpvj-vsEEHxvugYIh/view?usp=drive_link" },
+
+                { name: "Internet of Things", link: "https://drive.google.com/file/d/1CsZjjtmhGd4pcru5S7b2X-inf3EJpOXP/view?usp=drive_link" },
+
+                { name: "Python Programming", link: "https://drive.google.com/file/d/1BxpihKdfuWl1AzWmLJXmos_qxa1wNHUi/view?usp=drive_link" }
+
+            ]
+
+        },
+
+
+
+        "EEE": {
+
+            "1": [
+
+                { name: "English", link: "https://drive.google.com/file/d/1u4xvr-lcasHw1qoNxcyCGaSfkKwTHZjP/view?usp=drive_link" },
+
+                { name: "Mathematics I", link: "https://drive.google.com/file/d/1vt3vdNglEFw1Fy16QNlde6KJUUakWh8R/view?usp=drive_link" },
+
+                { name: "Physics", link: "https://drive.google.com/file/d/1lgCc3M6Lj8xN9PHO4hUO7orjQjSsWIjB/view?usp=drive_link" },
+
+                { name: "Chemistry", link: "https://drive.google.com/file/d/1w3Gl3d7m7hcSRXvPt86xeRWckTDhfS4K/view?usp=drive_link" },
+
+                { name: "Electrical Engineering Material Science", link: "https://drive.google.com/file/d/1a-wzaruYF7L-diHCqh26e2aIpBcScmBM/view?usp=drive_link" },
+
+                { name: "Basic Electrical Technology", link: "https://drive.google.com/file/d/19Brot941d__JvCJXuJI6qq5qRDQx8ITW/view?usp=drive_link" },
+
+                { name: "Engineering Drawing", link: "https://drive.google.com/file/d/1uyY-MYAKqbOghLnOft2oxkNkbw5jBfoC/view?usp=drive_link" }
+
+            ],
+
+
+
+            "3": [
+
+                { name: "Mathematics II", link: "https://drive.google.com/file/d/1gUxM_LHZpfHq83TMmhPnrWC5dfeiywpv/view?usp=drive_link" },
+
+                { name: "Electrical Machines-I", link: "https://drive.google.com/file/d/1fo0lXxBOtkxJmUPQBOclsfGIj6xNJsEk/view?usp=drive_link" },
+
+                { name: "A.C. Circuits & Transformers", link: "https://drive.google.com/file/d/1UtTPRz2Mg-kOE17P5e7KwlTd_uV4dy9q/view?usp=drive_link" },
+
+                { name: "Electronics Engineering", link: "https://drive.google.com/file/d/1OH6AWkK9e-Ko_CZVYXX9rwVUr1E4VwlE/view?usp=drive_link" },
+
+                { name: "C Programming", link: "https://drive.google.com/file/d/1hn3NotLnEXjn6jO6TBgqWl7m94vY1zw5/view?usp=drive_link" }
+
+            ],
+
+
+
+            "4": [
+
+                { name: "Electrical Installation & Estimation", link: "https://drive.google.com/file/d/19d4VUbwUb3hy9PmiyJJhPGTIMaH_dAR6/view?usp=drive_link" },
+
+                { name: "Electrical Machines-II", link: "https://drive.google.com/file/d/1HeX6U-KfYFx5AkBG7RRxaYUJi61FaVAV/view?usp=drive_link" },
+
+                { name: "Power System-I", link: "https://drive.google.com/file/d/1l4VYxLv5mHLXG15WwO6Xd2eM6i1K6qAt/view?usp=drive_link" },
+
+                { name: "Power Electronics & PLC", link: "https://drive.google.com/file/d/1i0i9-BF8rBMLZ06C0I2rX1yNE0_E96FM/view?usp=drive_link" },
+
+                { name: "General Mechanical Engineering", link: "https://drive.google.com/file/d/1IbM8-YLAcgRiP81KUrBcJqEBL5okRThp/view?usp=drive_link" }
+
+            ],
+
+
+
+            "5": [
+
+                { name: "Industrial Management & Smart Technologies", link: "https://drive.google.com/file/d/1QuoGJ89J1EJdUxNy795-jIkGsvOf9c_h/view?usp=drive_link" },
+
+                { name: "Electric Vehicles Technology", link: "papers/eee_ps2.pdf" },
+
+                { name: "Power System-II", link: "https://drive.google.com/file/d/1Eyx-7C1w7rwj7YgqAfqQo7UUaZ5NxKFg/view?usp=drive_link" },
+
+                { name: "Digital Electronics & Micro Controllers", link: "https://drive.google.com/file/d/1tVRZJf5MFspgda2xFoDTSIUA7Xo1Dskx/view?usp=drive_link" },
+
+                { name: "Electrical Utilisation & Traction", link: "https://drive.google.com/file/d/1V2lstOSqo304M9qUuLVFfXGWcUCy6dD4/view?usp=drive_link" }
+
+            ]
+
+        },
+
+
+
+        "ECE": {
+
+            "1": [
+
+                { name: "English", link: "https://drive.google.com/file/d/1N1HQ9whVWhr1EbKW_coiS3NxgLADGxJc/view?usp=drive_link" },
+
+                { name: "Mathematics I", link: "https://drive.google.com/file/d/12ZR3pVBsZ4g3O1FCxN-JBiWEXYqg2BLU/view?usp=drive_link" },
+
+                { name: "Physics", link: "https://drive.google.com/file/d/1pGzTcA2t7jA8iRMbrVI3vWyXIxkIIJE6/view?usp=drive_link" },
+
+                { name: "Chemistry", link: "https://drive.google.com/file/d/1m-yaSrn8XefBWRtHi8hTzj8yBlnQ-v_X/view?usp=drive_link" },
+
+                { name: "Electronic Components Devices", link: "https://drive.google.com/file/d/1veCduPvMN-ge3kHZmuEwsxxBQogGrTjJ/view?usp=drive_link" },
+
+                { name: "Elements Of Electronical Engineering", link: "https://drive.google.com/file/d/1y7u9fmWpYbb9WGz771FhNVkicGtdtAY8/view?usp=drive_link" },
+
+                { name: "Engineering Drawing", link: "https://drive.google.com/file/d/1BU0w1X85nHbdeDMonBBtxJsRHxdbi7ib/view?usp=drive_link" }
+
+            ],
+
+
+
+            "3": [
+
+                { name: "Mathematics II", link: "https://drive.google.com/file/d/1AM0f54wQdgr6C80pLu9TPfLkZfzQsm3l/view?usp=drive_link" },
+
+                { name: "Electric Circuit-I", link: "https://drive.google.com/file/d/1-6K31LlDQcTLfNhn5Ls849t-5Ybkkz9c/view?usp=drive_link" },
+
+                { name: "Analog & Digital Communication Systems", link: "https://drive.google.com/file/d/1w404gmjLNMe71QCmqL0sr1EEHmfaHPAn/view?usp=drive_link, https://drive.google.com/file/d/1mlaDesnwBEIPNFH2mEkxAxntlO7-aCZ0/view?usp=drive_link" },
+
+                { name: "Network Analysis", link: "https://drive.google.com/file/d/1JjqCtjeN2wjvwKoCDxfuegIZHFTy3RbO/view?usp=drive_link" },
+
+                { name: "C Programming", link: "https://drive.google.com/file/d/1O9o3qZYsv9uHPAEI0_Ha6aitjRUTNTBM/view?usp=drive_link" }
+
+            ],
+
+
+
+            "4": [
+
+                { name: "Electronic Circuit-II", link: "https://drive.google.com/file/d/1PT11_iQ7QuXOWDODgqGRTjj07RTxrI1i/view?usp=drive_link" },
+
+                { name: "Microcontrollers & Interface", link: "https://drive.google.com/file/d/1D08qzyNGMZlVx0GAGEVyFBAjVioYSNCD/view?usp=drive_link" },
+
+                { name: "Microwave & Satellite Communication Systems", link: "https://drive.google.com/file/d/1itRPRiEj69ocDRGGU5sfwZ7F0BLv1mSr/view?usp=drive_link" },
+
+                { name: "IOT & Sensors", link: "https://drive.google.com/file/d/1kzNG9WGDBgj2tCzdRjixG1h5zeAhH6uO/view?usp=drive_link" },
+
+                { name: "Didital Logic Design Through Verilog HDL", link: "https://drive.google.com/file/d/1q-P1knCvhhLJ_ELXN6lMiCO5Ckpb1FB1/view?usp=drive_link" }
+
+            ],
+
+
+
+            "5": [
+
+                { name: "Industrial Management & Entrepreneurship", link: "https://drive.google.com/file/d/1T_YmZi_wjbINW1w18yF9fP4fMbg4vtrm/view?usp=drive_link" },
+
+                { name: "Embedded Systems", link: "https://drive.google.com/file/d/1OrzjfvugPbJQNAmyrwNJrZx5A9m0c_Bo/view?usp=drive_link" },
+
+                { name: "Optical & Mobile Communication", link: "https://drive.google.com/file/d/18SUO8wU-PTNJ0ExlaehnMRaCtRXMzIsv/view?usp=drive_link" },
+
+                { name: "Industrial Electronics & Automation", link: "https://drive.google.com/file/d/1C9yiFwWvK8JBFYIrteqOVDEEcTSwWaJv/view?usp=drive_link" },
+
+                { name: "Data Communication & Computer Networks", link: "https://drive.google.com/file/d/1jTFOZ_NA5G0RrwWN5tLcYX0V9NXb4wmC/view?usp=drive_link" }
+
+            ]
+
+
+
+        },
+
+
+
+        "ME": {
+
+            "1":[
+
+                { name: "English", link: "https://drive.google.com/file/d/1-9wHUvd0suRiLbYVxYd9xwhoH5z7ppWA/view?usp=drive_link" },
+
+                { name: "Mathematics I", link: "https://drive.google.com/file/d/1qzGypkNlN5l3oRzqf4TWqnhSr4mGcyAe/view?usp=drive_link" },
+
+                { name: "Physics", link: "https://drive.google.com/file/d/1Yy1FGAE7CCU5GGgB65Ks5v-wvPwZmrdr/view?usp=drive_link" },
+
+                { name: "Chemistry", link: "https://drive.google.com/file/d/1Q1hezSsdgntRY4OgqSHacwrkdCMseBqv/view?usp=drive_link" },
+
+                { name: "Basic Manufacturing Processes", link: "https://drive.google.com/file/d/12eGgri4Pmshy31r4Qe1vdKIYaXVTOws8/view?usp=drive_link" },
+
+                { name: "Engineering Mechanics", link: "https://drive.google.com/file/d/1wEHaJZX7p7FpmAe3UaTcjyJn8eyF1Wrk/view?usp=drive_link" },
+
+                { name: "Engineering Drawing", link: "https://drive.google.com/file/d/1NogL7SC77uiuTwTwfb6z4jAtKM9d2Kn3/view?usp=drive_link" }
+
+            ],
+
+
+
+            "3": [
+
+                { name: "Mathematics II", link: "https://drive.google.com/file/d/1AR4k3VJfIodX9dKTMKkw4-Rszpz_pPv9/view?usp=drive_link" },
+
+                { name: "Applied Electrical & Electronics", link: "https://drive.google.com/file/d/1yGC96JoQqO2TqWjwpumbsCJrbf5gmvVd/view?usp=drive_link,https://drive.google.com/file/d/1JaRHs5xh9v4ZvPD95NDqncrnqB8akp-7/view?usp=drive_link" },
+
+                { name: "Thermal Engineering-I", link: "https://drive.google.com/file/d/1iqgzOrN3NeHSPwdLIb_2zFPPd3V3hlzm/view?usp=drive_link" },
+
+                { name: "Strength of Materials", link: "https://drive.google.com/file/d/12UMXD0QWskJdtU2ABE3GhmFUhR0DsWV3/view?usp=drive_link" },
+
+                { name: "Manufacturing Technology-I", link: "https://drive.google.com/file/d/19NBy7rkSp55L6HE_6Kp3ek-uJEYnzGJQ/view?usp=drive_link" }
+
+            ],
+
+
+
+            "4": [
+
+                { name: "Design Of Machine Elements", link: "https://drive.google.com/file/d/17_thYugdom80OYOZhacHoqm0MDEUGRbg/view?usp=drive_link" },
+
+                { name: "Hydraulics & Fluid Power Systems", link: "https://drive.google.com/file/d/1ZyyP80V_BXBDhdlzvsHG8Z-kd3QsALRW/view?usp=drive_link" },
+
+                { name: "Thermal Engineering-II", link: "https://drive.google.com/file/d/1jzIG99huyc_ugv-sA3P03Fb0j2wbCVee/view?usp=drive_link" },
+
+                { name: "Engineering Materials", link: "https://drive.google.com/file/d/137B1Jua1mqRasboGYf_-4dgSMeBFhKNr/view?usp=drive_link" },
+
+                { name: "Manufacturing Technology-II", link: "https://drive.google.com/file/d/1oiz2CYhxvhA7aH0c7djA3KeO8bNkNqsG/view?usp=drive_link" }
+
+            ],
+
+
+
+            "5": [
+
+                { name: "Industrial Management & Entrepreneurship", link: "https://drive.google.com/file/d/1rVhoKg8CyHhmY9v2M3JhbzrcZDaQTi-O/view?usp=drive_link" },
+
+                { name: "Industrial Engineering and Quality Control", link: "https://drive.google.com/file/d/1P0W6heh26VgRchiM3K3G6aCz7hhEIYZd/view?usp=drive_link" },
+
+                { name: "Green Energy & Thermal Systems", link: "https://drive.google.com/file/d/16JiVJtL0V2wEHxcwc-P-sStyEwK_CfSb/view?usp=drive_link, https://drive.google.com/file/d/1YjdNqngPUFeztDIr_w6tiydmE5-9WfeL/view?usp=drive_link" },
+
+                { name: "Industrial Automation & 3D Printing", link: "papers/me_cad.pdf" },
+
+                { name: "Refrigeration & Air Conditioning", link: "https://drive.google.com/file/d/1uPCkwi5fkKRdJZy22PdUgVXATb2zusnt/view?usp=drive_link" }
+
+            ]
+
+
+
+        },
+
+
+
+        "CE": {
+
+            "1": [
+
+                { name: "English", link: "https://drive.google.com/file/d/1V9YHOy7h5Hq_qx2gVRVfQn6nXvY3w1zs/view?usp=drive_link" },
+
+                { name: "Mathematics I", link: "https://drive.google.com/file/d/1222z7dT1_0Vd5q9WxumSxAwNBsvJAHOQ/view?usp=drive_link" },
+
+                { name: "Physics", link: "https://drive.google.com/file/d/11HKoNsRSvOHF1l71xLGuIZIwgCmV75yQ/view?usp=drive_link" },
+
+                { name: "Chemistry", link: "https://drive.google.com/file/d/1k98EncfWaiaTCpjA-oJcQok1l47_2LR-/view?usp=drive_link" },
+
+                { name: "Engineering Mechanics", link: "https://drive.google.com/file/d/1CwXkdby2Cc43tvTpt_z8mM8B2SFxGYmC/view?usp=drive_link" },
+
+                { name: "Surveying-I", link: "https://drive.google.com/file/d/1pzsL0JNsNZ__0aYyZ6UBIq_0_BHk1xXm/view?usp=drive_link" },
+
+                { name: "Engineering Drawing", link: "https://drive.google.com/file/d/1kwoS0wlhy2Lzdt41o2Zv-hyjPsfcn7Xq/view?usp=drive_link" }
+
+            ],
+
+
+
+            "3": [
+
+                { name: "Mathematics II", link: "https://drive.google.com/file/d/1ChwZXK7g92IcCBx_yG25jJI6NG92vVnY/view?usp=drive_link" },
+
+                { name: "Mechanics of Solids & Theory of Structures", link: "https://drive.google.com/file/d/1797-ABa44oV5hiQ0Q8ML42ue2WslIlvi/view?usp=drive_link" },
+
+                { name: "Hydraulics", link: "https://drive.google.com/file/d/1ILanHqt6hwiJUYIYHIKOFxdwBsheBwyl/view?usp=drive_link" },
+
+                { name: "Surveying-II", link: "https://drive.google.com/file/d/1mCeRas2FGii6LFPv7KzwH1RYS2ZmwVD8/view?usp=drive_link" },
+
+                { name: "Construction Materials", link: "https://drive.google.com/file/d/1cjlHL6wrCUW-aV1X74M2Hi9YfwizC_SR/view?usp=drive_link" }
+
+            ],
+
+
+
+            "4": [
+
+                { name: "Concrete Technology & Valuation", link: "https://drive.google.com/file/d/161Qavw1GuJpjUBVib1pMlF9XP13yw24T/view?usp=drive_link" },
+
+                { name: "Design and Detailing of R.C. Structures", link: "https://drive.google.com/file/d/1ALilDpJzUtIgUT4xNaSz0-wyaN5kW_3h/view?usp=drive_link" },
+
+                { name: "Construction Practice", link: "https://drive.google.com/file/d/16QVqxk5Trpbr-uvxsQ89EqSJg6m6i0Qi/view?usp=drive_link" },
+
+                { name: "Transportation Engineering", link: "https://drive.google.com/file/d/19aCW0_jSA-2R5LY-7LNyFn-j_1zPom0M/view?usp=drive_link" },
+
+                { name: "Environmental Engineering", link: "https://drive.google.com/file/d/1pxbF9ZB_igeudMtheuuV0ouXDuIa6wMv/view?usp=drive_link" }
+
+            ],
+
+
+
+            "5": [
+
+                { name: "Steel Structures", link: "https://drive.google.com/file/d/1SPUueXnvoVa6gjuFYxuUoTV8uF3Z-dSv/view?usp=drive_link" },
+
+                { name: "Environmental Engineering", link: "https://drive.google.com/file/d/1lqOj-JwzI-gXqKou9_AJWx5esinE-fmM/view?usp=drive_link" },
+
+                { name: "Quantity Surveying", link: "https://drive.google.com/file/d/11Ycm_Gflcoe9MESd9AdZv450GkHx0hcJ/view?usp=drive_link" },
+
+                { name: "Advanced Civil Engineering Technologies", link: "https://drive.google.com/file/d/1WiiYyLJhdMiQmS-MabFxN50dn07AxAVp/view?usp=drive_link" },
+
+                { name: "Construction Management & Entrepreneurship", link: "https://drive.google.com/file/d/1uvOtuw9arapafKhCbVsloP7WujGHwun_/view?usp=drive_link" }
+
+            ]
+
+
+
+        },
+
+    };
+
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwmnDD_f2-znPHcvVfNmuEl7-AMmB-wpEdzntGLqTxb2FDqNvJxSNrYsq3sSz90rBMRwA/exec";
+
+    function getSubjects() {
+        const branch = document.getElementById('branch').value;
+        const sem = document.getElementById('semester').value;
+        const email = document.getElementById('userEmail').value;
+        const resultsDiv = document.getElementById('results');
+        
+        if (!email || !email.includes('@')) {
+            alert("Please enter a valid email.");
+            return;
+        }
+
+        resultsDiv.innerHTML = ""; 
+
+        if (data[branch] && data[branch][sem]) {
+            resultsDiv.innerHTML = "<h3>Available Papers & Videos:</h3>";
+            data[branch][sem].forEach(subject => {
+                // row container for paper link and video button
+                const row = document.createElement('div');
+                row.className = 'result-row';
+
+                const paperLink = document.createElement('a');
+                paperLink.href = subject.link;
+                paperLink.className = 'subject-link';
+                paperLink.innerText = "📄 " + subject.name;
+                paperLink.target = "_blank";
+
+                paperLink.onclick = function() {
+                    saveToSheet(email, branch, sem, subject.name);
+                };
+
+                const videoBtn = document.createElement('button');
+                videoBtn.className = 'video-btn';
+                videoBtn.innerText = "▶ Watch Video";
+                // open the video page with parameters
+                videoBtn.onclick = function() {
+                    // open the generic video page; users can filter once there
+                    window.open('video.html', '_blank');
+                };
+
+                row.appendChild(paperLink);
+                row.appendChild(videoBtn);
+                resultsDiv.appendChild(row);
+            });
+        } else {
+            resultsDiv.innerHTML = "<p style='color:red;'>No papers found. Please check your selection.</p>";
+        }
+    }
+
+    function saveToSheet(email, branch, sem, subject) {
+        fetch(SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            body: JSON.stringify({ email, branch, semester: sem, subject })
+        }).then(() => console.log("Logged to Sheet"));
+    }
+    </script>
+</body>
+</html>

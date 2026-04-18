@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question Papers</title>
+    <link rel="stylesheet" href="s.css">
+</head>
+
+<body>
+<header>
+    <div class="logo">
+        <h2>🎓 Diploma Students Portal</h2>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="videos.html">Videos</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+</header>
+
+<div class="long-container">
+    <h1>Welcome To YOU</h1>
+    <div class="long-form-box">
+        <form id="studentForm">
+            <div class="long-form-group">
+                <h3>Enter your name:</h3>
+                <input type="text" id="name" name="name"
+                       placeholder="Enter your name"
+                       required oninput="cleanName(this)">
+            </div>
+
+            <div class="long-form-group">
+                <h3>Enter your Roll Number:</h3>
+                <input type="text" id="rollno" name="rollno"
+                       placeholder="123-EEE-001"
+                       required oninput="formatPin(this)">
+            </div>
+
+            <button type="submit" id="submitBtn">Submit</button>
+
+            <div id="pinError">
+                Invalid Roll Number format. Expected like 123-EEE-001.
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- ✅ JavaScript at bottom -->
+<script>
+    // Replace the placeholder with your actual URL
+const scriptURL = 'https://script.google.com/macros/s/AKfycbxevZwnfz11KlCLJVINJLkLzE0QzU_ZvlRTrHYLuAE1A-ymnMDIKQh6_w7UMVs2iTKV/exec';
+function cleanName(input) {
+    input.value = input.value.replace(/[^a-zA-Z\s]/g, '');
+}
+
+function formatPin(input) {
+    input.value = input.value.toUpperCase();
+}
+
+function validateRollNumber() {
+    const pinValue = document.getElementById('rollno').value.trim();
+    const pinRegex = /^\d+-(CME|EEE|ECE|ME|CE|CM|M|C|EE|EC)-\d{3}$/;
+    const err = document.getElementById('pinError');
+
+    if (pinRegex.test(pinValue)) {
+        err.style.display = 'none';
+        return true;
+    } else {
+        err.style.display = 'block';
+        return false;
+    }
+}
+
+document.getElementById('studentForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    if (!validateRollNumber()) return;
+
+    const submitBtn = document.getElementById('submitBtn');
+    submitBtn.disabled = true;
+
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbxevZwnfz11KlCLJVINJLkLzE0QzU_ZvlRTrHYLuAE1A-ymnMDIKQh6_w7UMVs2iTKV/exec';
+
+    fetch(scriptURL, {
+        method: 'POST',
+        body: new FormData(this),
+        mode: 'no-cors'
+    })
+    .then(() => {
+        this.reset();
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = "Submit";
+        window.location.href = 'conter.html';
+    })
+    .catch(error => {
+        console.error(error);
+        alert("Error occurred.");
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = "Submit";
+    });
+});
+</script>
+
+</body>
+</html>

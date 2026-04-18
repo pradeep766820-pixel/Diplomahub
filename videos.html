@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Login - Diploma Portal</title>
+    <link rel="stylesheet" href="videos loging.css">
+</head>
+<body>
+
+<header>
+    <div class="logo">
+        <h2>🎓 Diploma Students Portal</h2>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="videos.html">Videos</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+</header>
+
+<div class="login-container">
+    <h1 class="video-title">🎓 Student Login</h1>
+    <p class="subtitle-text">Access your educational videos and resources</p>
+
+    <form id="studentForm">
+
+        <div class="form-group">
+            <h3>📧 Enter your Email:</h3>
+            <input type="email" id="email" name="email"
+                   placeholder="Enter your email address" required oninput="validateEmail(this)">
+        </div>
+        <div id="emailError" style="display:none;color:#b00020;margin-top:8px;">
+    ⚠️ Please enter a valid email address (example@gmail.com)
+</div>
+
+
+        <div class="form-group">
+            <h3>🔐 Enter your Roll Number:</h3>
+            <input type="text" id="rollNumber" name="rollNumber"
+                   placeholder="Format: 123-EEE-001"
+                   required oninput="formatPin(this)">
+        </div>
+
+        <!-- IMPORTANT: submit button (NO onclick) -->
+        <button type="submit" id="submitBtn">✓ Login & Access Videos</button>
+
+        <div id="pinError" style="display:none;color:#b00020;margin-top:10px;">
+            ⚠️ Invalid Roll Number format. Expected: 123-EEE-001
+        </div>
+
+    </form>
+</div>
+<script>
+// 1. Paste your Google Web App URL here
+const scriptURL = "https://script.google.com/macros/s/AKfycbxhYZ4lWxS6ro8wOKnTCGLD-HHVHbjyhNfpBD-ahk6ApVfKDcsh3DKpw4CyHPXnn7C-/exec";
+
+const form = document.getElementById("studentForm");
+const submitBtn = document.getElementById("submitBtn");
+const emailInput = document.getElementById("email");
+const rollInput = document.getElementById("rollNumber");
+
+// Force Roll Number to Uppercase and Email to Lowercase while typing
+rollInput.addEventListener("input", () => {
+    rollInput.value = rollInput.value.toUpperCase();
+});
+
+emailInput.addEventListener("input", () => {
+    emailInput.value = emailInput.value.toLowerCase();
+});
+
+// Validation Functions
+function validateEmail() {
+    const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+    const error = document.getElementById("emailError");
+    if (emailRegex.test(emailInput.value.trim())) {
+        error.style.display = "none";
+        return true;
+    } else {
+        error.style.display = "block";
+        return false;
+    }
+}
+
+function validateRollNumber() {
+    const rollRegex = /^\d+-(CME|EEE|ECE|ME|CE|CM|M|C|EE|EC)-\d{3}$/;
+    const error = document.getElementById("pinError");
+    if (rollRegex.test(rollInput.value.trim())) {
+        error.style.display = "none";
+        return true;
+    } else {
+        error.style.display = "block";
+        return false;
+    }
+}
+
+// Form Submission logic
+form.addEventListener("submit", e => {
+    e.preventDefault();
+
+    // Run both validations
+    const isEmailValid = validateEmail();
+    const isRollValid = validateRollNumber();
+
+    if (!isEmailValid || !isRollValid) {
+        return; // Stop if validation fails
+    }
+
+    // Visual feedback for the user
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = "⌛ Saving Data...";
+
+    // Sending data to Google Sheets
+    fetch(scriptURL, { 
+        method: 'POST', 
+        body: new FormData(form),
+        mode: 'no-cors' // Required for Google Scripts
+    })
+    .then(() => {
+        // Success: Redirect to the video page
+        window.location.href = "video.html"; 
+    })
+    .catch(error => {
+        console.error('Error!', error.message);
+        alert("Submission failed. Check your internet connection.");
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = "✓ Login & Access Videos";
+    });
+});
+</script>
+</body>
+</html>

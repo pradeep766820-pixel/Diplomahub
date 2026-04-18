@@ -1,0 +1,183 @@
+/* ---------- global reset & base ---------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #4e73df, #1cc88a);
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  padding: 15px 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+  transition: 0.3s ease;
+  padding: 6px 12px;
+  border-radius: 6px;
+}
+
+nav ul li a:hover,
+nav ul li a.active {
+  background: white;
+  color: #4e73df;
+}
+
+/* ---------- long page form styles ---------- */
+.long-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.long-container h1 {
+  color: white;
+  margin-bottom: 25px;
+  font-size: 32px;
+}
+
+.long-form-box {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(15px);
+  padding: 40px;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+}
+
+.long-form-group {
+  margin-bottom: 20px;
+}
+
+.long-form-group h3 {
+  margin-bottom: 8px;
+  color: white;
+  font-size: 15px;
+}
+
+input {
+  width: 100%;
+  padding: 12px 15px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+}
+
+input:focus {
+  box-shadow: 0 0 0 3px rgba(255,255,255,0.4);
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background: white;
+  color: #4e73df;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+button:hover {
+  background: #2e59d9;
+  color: white;
+}
+
+#pinError {
+  font-size: 13px;
+  font-weight: 500;
+  color: #ffdddd;
+  margin-top: 8px;
+  display: none;
+}
+
+/* ---------- 3D image animation for long page ---------- */
+.long-3d-container {
+  perspective: 1000px;
+}
+
+.long-3d-img {
+  width: 250px;
+  max-width: 100%;
+  border-radius: 10px;
+  transform-style: preserve-3d;
+  transition: transform 0.6s ease, box-shadow 0.6s ease;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+}
+
+.long-3d-img:hover {
+  transform: rotateY(20deg) rotateX(10deg) scale(1.05);
+  box-shadow: 0 25px 45px rgba(0,0,0,0.3);
+}
+
+@keyframes spin {
+  from { transform: rotateY(0deg); }
+  to { transform: rotateY(360deg); }
+}
+
+.long-3d-rotate {
+  animation: spin 15s linear infinite;
+}
+
+/* ---------- preserved login styles ---------- */
+.image-overlay {
+  display: none;
+}
+.login-panel{
+    flex:1;
+    padding: 50px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.login-panel h1 {
+    font-size: 2em;
+    margin-bottom: 10px;
+    color:#333;
+}
+.login-panel p{
+        margin-bottom: 30px;
+    color:#666;
+}
+.demo-info {
+    margin: 5px 0;
+    font-size: 0.9em;
+    color: #1565C0;
+}
+.message {
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    margin-top: 10px;
+    animation: slideIn 0.3s ease;
+    text-align: center;
+    font-weight: 600;
+}
